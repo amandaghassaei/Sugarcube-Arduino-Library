@@ -45,15 +45,16 @@
     pinMode(_buttonLatchPin,OUTPUT);
     pinMode(_buttonClockPin,OUTPUT);
     pinMode(_buttonDataPin,INPUT);
-    pinMode(1,OUTPUT);
-    pinMode(0,INPUT);
     pinMode(_xAccPin,INPUT);
     pinMode(_yAccPin,INPUT);
     pinMode(_pot1Pin,INPUT);
     pinMode(_pot2Pin,INPUT);
     pinMode(_xGyroPin,INPUT);
     pinMode(_yGyroPin,INPUT);
-    DDRD = 0xFA;//set pins D7-D4 as output, D2 as input
+    //set serial pin connections
+    pinMode(1,OUTPUT);
+    pinMode(0,INPUT);
+//    DDRD = 0xFA;//set pins D7-D4 as output, D2 as input
   }
   
   void SugarCube::timer1Setup()
@@ -104,18 +105,18 @@
   
   void SugarCube::setDefaultPinConnections()
   {
-    this->setLedLatchPin();
-    this->setLedClockPin();
-    this->setLedDataPin();
-    this->setButtonLatchPin();
-    this->setButtonClockPin();
-    this->setButtonDataPin();
-    this->setXAccPin();
-    this->setYAccPin();
-    this->setPot1Pin();
-    this->setPot2Pin();
-    this->setXGyroPin();
-    this->setYGyroPin();
+    this->setLedLatchPin(6);
+    this->setLedClockPin(5);
+    this->setLedDataPin(7);
+    this->setButtonLatchPin(4);
+    this->setButtonClockPin(3);
+    this->setButtonDataPin(2);
+    this->setXAccPin(A4);
+    this->setYAccPin(A3);
+    this->setPot1Pin(A2);
+    this->setPot2Pin(A5);
+    this->setXGyroPin(A1);
+    this->setYGyroPin(A0);
   }
   
   void SugarCube::setLedLatchPin(byte pinNum)
@@ -145,7 +146,7 @@
   
   void SugarCube::setButtonDataPin(byte pinNum)
   {
-    _buttonLatchPin = pinNum;
+    _buttonDataPin = pinNum;
   }
   
   void SugarCube::setXAccPin(byte pinNum)
