@@ -12,10 +12,16 @@
   Delegate::Delegate()//constructor method
   {
   }
+  
+  void Delegate::setSugarCube(SugarCube * sugarcube)//constructor method
+  {
+    _sugarcube = sugarcube;
+  }
         
   //buttons
   void Delegate::buttonPressed(byte xPos, byte yPos)
   {
+    _sugarcube->SugarCube::turnOnLED(xPos,yPos);
   }
   
   void Delegate::buttonReleased(byte XPos, byte yPos)

@@ -3,7 +3,7 @@
     Created by Amanda Ghassaei, July 20, 2013.
   */
   
-  #include "SugarCube.h"
+    #include "SugarCube.h"
   
   //---------------------------------------------------------------------
   //-------------------------CONSTRUCTOR/SETUP---------------------------
@@ -28,6 +28,8 @@
         _buttonDebounceCounter[i][j] = _buttonDebounceTime;
       }
     }
+    
+    _delegate.setSugarCube(this);
   }
   
   void SugarCube::init()
@@ -182,7 +184,7 @@
   //-----------------------RECEIVE BUTTON DATA---------------------------
   //---------------------------------------------------------------------
   
-  boolean * SugarCube::getButtonStatesArray(boolean storageArray[4][4])//working
+  boolean * SugarCube::getButtonStatesArray(boolean storageArray[4][4])
   {//current button states, 4x4 array of 0's and 1's -> 1= pressed, 0 = not pressed [xPos][yPos]
     byte buttonStateCopy[4];//make a copy in case _buttonStates changes while we are extracting data, things could get confusing
     memcpy(buttonStateCopy, _buttonStates, 4*sizeof(byte));
@@ -198,7 +200,7 @@
     return *storageArray;
   }
   
-  byte * SugarCube::getButtonStatesBitmap(boolean byRow, byte storageArray[4])//working
+  byte * SugarCube::getButtonStatesBitmap(boolean byRow, byte storageArray[4])
   {//get states of all 16 buttons in 4 four bit bitmaps, each element in the returned array is a binary number between 0000 (all released) and 1111 (all pressed), when byRow == TRUE the first element of the returned array corresponds to the first row of leds, the second element of the returned array to the second row, and so on... when byRow == FALSE the first element of the returned array corresponds to the first column of leds, the second element of the returned array to the second column, and so on...
     memcpy(storageArray, _buttonStates, 4*sizeof(byte));
     if (byRow){
@@ -220,7 +222,7 @@
     }
   }
   
-  boolean SugarCube::getStateOfButton(byte xPos, byte yPos)//working
+  boolean SugarCube::getStateOfButton(byte xPos, byte yPos)
   {
     if ((_buttonStates[yPos]>>(3-xPos))&1==1){
       return true;
@@ -228,12 +230,12 @@
     return false;
   }
   
-  byte SugarCube::getStateOfButtonRow(byte row)//working
+  byte SugarCube::getStateOfButtonRow(byte row)
   {
     return _buttonStates[row];
   }
   
-  byte SugarCube::getStateOfButtonCol(byte col)//working
+  byte SugarCube::getStateOfButtonCol(byte col)
   {
     byte buttonStatesCopy[4];//make a copy in case _buttonStates changes while we are extracting data, things could get confusing
     memcpy(buttonStatesCopy, _buttonStates, 4*sizeof(byte));
@@ -326,17 +328,17 @@
   //------------------------SEND LED DATA--------------------------------
   //---------------------------------------------------------------------
   
-  void SugarCube::turnOnLED(byte xPos, byte yPos)//working
+  void SugarCube::turnOnLED(byte xPos, byte yPos)
   {//turn on one led
     _ledData[yPos] |= 1<<(3-xPos);
   }
   
-  void SugarCube::turnOffLED(byte xPos, byte yPos)//working
+  void SugarCube::turnOffLED(byte xPos, byte yPos)
   {//turn off one led
     _ledData[yPos] &= ~(1<<(3-xPos));
   }
   
-  void SugarCube::setLEDState(byte xPos, byte yPos, boolean state)//working
+  void SugarCube::setLEDState(byte xPos, byte yPos, boolean state)
   {//set state of led -> 1 = on, 0 = off
     if (state) {
       this->turnOnLED(xPos, yPos);
@@ -345,7 +347,7 @@
     }
   }
   
-  void SugarCube::setLEDsByArray(boolean * states)//working
+  void SugarCube::setLEDsByArray(boolean * states)
   {//set states of all 16 leds with 4x4 boolean array states[x][y] -> 1 = on, 0 = off
     for (byte y=0;y<4;y++){
       byte statesBitmap = 0;
@@ -358,7 +360,7 @@
     }
   }
   
-  void SugarCube::setLEDsByBitmap(byte * states, boolean byRow)//working
+  void SugarCube::setLEDsByBitmap(byte * states, boolean byRow)
   {//set states of all 16 leds with 4 bitmaps (states), each element in states is a binary number between 0000 (all off) and 1111 (all on)
   //when byRow == TRUE the first element of states corresponds to the first row of leds, the second element of states to the second row, and so on... 
   //when byRow == FALSE the first element of states corresponds to the first column of leds, the second element of states to the second column, and so on...
@@ -378,12 +380,12 @@
     }
   }
   
-  void SugarCube::setLEDRow(byte row, byte states)//working
+  void SugarCube::setLEDRow(byte row, byte states)
   {//set entire row of four leds, states is a binary number between 0000 and 1111
     _ledData[row] = states;
   }
   
-  void SugarCube::setLEDCol(byte col, byte states)//working
+  void SugarCube::setLEDCol(byte col, byte states)
   {//set entire column of four leds, states is a binary number between 0000 and 1111
     for (byte y=0;y<4;y++){
       boolean state = (states>>(3-y))&1;
@@ -463,7 +465,15 @@
         }
       } else {
         if (_buttonEvents[i]<<j){
-          if (_buttonStates[i]&1<<j){
+          boolean state = _buttonStates[i]&1<<j;
+          _delegate.buttonStateChanged(i,j,state);
+          _delegate.buttonRowChanged(j,_buttonStates[j]);
+          _delegate.buttonColChanged(i,this->getStateOfButtonCol(i));
+          byte storageArray[4];
+          _delegate.buttonStatesChangedBitmap(storageArray);
+          boolean storageArray2[4][4];
+          _delegate.buttonStatesChangedArray(getButtonStatesArray(storageArray2));
+          if (state){
             _delegate.buttonPressed(i,j);
           }
           else{

@@ -7,13 +7,15 @@
   #define Delegate_h
   
   #include "Arduino.h"
+  class SugarCube;
   
   class Delegate//parent class - allows message to be sent from sugarcube class into individual apps
   {
     public:
     
       Delegate();//constructor method
-      
+      void setSugarCube(SugarCube * sugarcube);
+
       //buttons
       void buttonPressed(byte xPos, byte yPos);
       void buttonReleased(byte XPos, byte yPos);
@@ -30,6 +32,11 @@
       void Pot2HasChanged(int val);
       void XGyroHasChanged(int val);
       void YGyroHasChanged(int val);
+      
+   protected:
+   
+     SugarCube * _sugarcube;
+     
    };
   
   #endif

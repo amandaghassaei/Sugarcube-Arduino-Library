@@ -50,7 +50,6 @@
     byte myarray[4][4];
 //    for (byte y=0;y<4;y++){
 //      for (byte x=0;x<4;x++){
-          sugarcube.setLEDsByArray(sugarcube.getButtonStatesArray(myarray));
 //      }
 //    }
     Serial.println();
