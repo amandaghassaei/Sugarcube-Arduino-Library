@@ -35,6 +35,7 @@
         
     this->setupInputsAndOutputs();
     this->timer1Setup();
+    _serialEnabled = false;
   }
   
   void SugarCube::setupInputsAndOutputs()
@@ -398,93 +399,72 @@
   
   void SugarCube::shift(byte i)
   {
-      _buttonLast[i] = _buttonCurrent[i];
-      byte dataToSend = (1 << (i+4)) | (15 & ~_ledData[i]);
-      // set latch pin low so the LEDs don't change while sending in bits
-      PORTD&=B10111111;//digitalWrite(ledLatchPin, LOW);
-      // shift out the bits of dataToSend 
-      //shiftOut(ledDataPin, ledClockPin, LSBFIRST, dataToSend);  
-      for (byte j=0;j<8;j++){
-        PORTD&=B11011111;//digitalWrite(ledClockPin,LOW);
-        //digitalWrite(ledDataPin,((dataToSend>>j)&1));
-        if ((dataToSend>>j)&1){
-          PORTD|=B10000000;
-        }
-        else{
-          PORTD&=B01111111;
-        }
-        PORTD|=B00100000;//digitalWrite(ledClockPin,HIGH);
+    _buttonLast[i] = _buttonCurrent[i];
+    byte dataToSend = (1 << (i+4)) | (15 & ~_ledData[i]);
+    // set latch pin low so the LEDs don't change while sending in bits
+    PORTD&=B10111111;//digitalWrite(ledLatchPin, LOW);
+    // shift out the bits of dataToSend 
+    //shiftOut(ledDataPin, ledClockPin, LSBFIRST, dataToSend);  
+    for (byte j=0;j<8;j++){
+      PORTD&=B11011111;//digitalWrite(ledClockPin,LOW);
+      //digitalWrite(ledDataPin,((dataToSend>>j)&1));
+      if ((dataToSend>>j)&1){
+        PORTD|=B10000000;
       }
-      //set latch pin high so the LEDs will receive new data
-      PORTD|=B01000000;//digitalWrite(ledLatchPin, HIGH);
+      else{
+        PORTD&=B01111111;
+      }
+      PORTD|=B00100000;//digitalWrite(ledClockPin,HIGH);
+    }
+    //set latch pin high so the LEDs will receive new data
+    PORTD|=B01000000;//digitalWrite(ledLatchPin, HIGH);
+    
+    // SlowDown is put in here to waste a little time while we wait for the state of the output
+    // pins to settle.  Without this time wasting loop, a single button press would show up as
+    // two presses (the button and its neighbour)
+    volatile int SlowDown = 0; 
+    while (SlowDown < 15) 
+    { 
+      SlowDown++; 
+    } 
       
-      // SlowDown is put in here to waste a little time while we wait for the state of the output
-      // pins to settle.  Without this time wasting loop, a single button press would show up as
-      // two presses (the button and its neighbour)
-      volatile int SlowDown = 0; 
-      while (SlowDown < 15) 
-      { 
-        SlowDown++; 
-      } 
-        
-      //once one row has been set high, receive data from buttons
-      //set latch pin high
-      PORTD|=B00010000;//digitalWrite(buttonLatchPin, HIGH);
-      //shift in data
-      //buttonCurrent[i] = shiftIn(buttonDataPin, buttonClockPin, LSBFIRST) >> 3;
-      for (byte j=0;j<4;j++){
-        PORTD&=B11110111;//digitalWrite(buttonClockPin,LOW);
-        PORTD|=B00001000;//digitalWrite(buttonClockPin,HIGH);
+    //once one row has been set high, receive data from buttons
+    //set latch pin high
+    PORTD|=B00010000;//digitalWrite(buttonLatchPin, HIGH);
+    //shift in data
+    //buttonCurrent[i] = shiftIn(buttonDataPin, buttonClockPin, LSBFIRST) >> 3;
+    for (byte j=0;j<4;j++){
+      PORTD&=B11110111;//digitalWrite(buttonClockPin,LOW);
+      PORTD|=B00001000;//digitalWrite(buttonClockPin,HIGH);
+    }
+    for (byte j=0;j<4;j++){
+      PORTD&=B11110111;//digitalWrite(buttonClockPin,LOW);
+      if ((PIND>>2)&1){//digitalRead(buttonDataPin)
+        _buttonCurrent[i]|=1<<j;
       }
-      for (byte j=0;j<4;j++){
-        PORTD&=B11110111;//digitalWrite(buttonClockPin,LOW);
-        if ((PIND>>2)&1){//digitalRead(buttonDataPin)
-          _buttonCurrent[i]|=1<<j;
-        }
-        else{
-          _buttonCurrent[i]&=~(1<<j); 
-        }
-        PORTD|=B00001000;//digitalWrite(buttonClockPin,HIGH);
+      else{
+        _buttonCurrent[i]&=~(1<<j); 
       }
-      //latchpin low
-      PORTD&=B11101111;//digitalWrite(buttonLatchPin, LOW);
+      PORTD|=B00001000;//digitalWrite(buttonClockPin,HIGH);
+    }
+    //latchpin low
+    PORTD&=B11101111;//digitalWrite(buttonLatchPin, LOW);
+    
+    for (byte j=0;j<4;j++){
+      this->buttonCheck(i,j);
       
-      for (byte j=0;j<4;j++){
-        this->buttonCheck(i,j);
-//        if (path == 2){
-//          if (buttonEvent[i]<<k){
-//            if (buttonState[i]&1<<k){
-//              Serial.write(((3-k)<<3)+(i<<1)+1);
-//            }
-//            else{
-//              Serial.write(((3-k)<<3)+(i<<1)+0);
-//            }
-//            buttonEvent[i] &= ~(1<<k);
-//          }
-//        }
-      }    
-
-//    _buttonLast[i] = _buttonCurrent[i];
-//    byte dataToSend = (1 << (i+4)) | (15 & ~_ledData[i]);
-//      
-//    // set latch pin low so the LEDs don't change while sending in bits
-//    digitalWrite(_ledLatchPin, LOW);
-//    // shift out the bits of dataToSend
-//    shiftOut(_ledDataPin, _ledClockPin, LSBFIRST, dataToSend);  
-//    //set latch pin high so the LEDs will receive new data
-//    digitalWrite(_ledLatchPin, HIGH);
-//      
-//    //once one row has been set high, receive data from buttons
-//    //set latch pin high
-//    digitalWrite(_buttonLatchPin, HIGH);
-//    //shift in data
-//    _buttonCurrent[i] = shiftIn(_buttonDataPin, _buttonClockPin, LSBFIRST) >> 3;
-//    //latchpin low
-//    digitalWrite(_buttonLatchPin, LOW);
-//    
-//    for (byte j=0;j<4;j++){
-//      buttonCheck(i,j);
-//    }
+      if (_serialEnabled){
+        if (_buttonEvents[i]<<j){
+          if (_buttonStates[i]&1<<j){
+            Serial.write(((3-j)<<3)+(i<<1)+1);
+          }
+          else{
+            Serial.write(((3-j)<<3)+(i<<1)+0);
+          }
+          _buttonEvents[i] &= ~(1<<j);
+        }
+      }
+    }    
   }
   
   void SugarCube::buttonCheck(byte row, byte index)//check the state of a given button and debounce.
@@ -577,12 +557,12 @@
     if (_hardwareIter>3){
       _hardwareIter = 0;
     }
-//    this->checkAnalogPins();
+    this->checkAnalogPins();
   }
   
   void SugarCube::timer2Routine()
   {
-//    if (path == 2){
+    if (_serialEnabled){//if in serial mode
       do{
         if (Serial.available()){
           byte ledByte = Serial.read();//000xxyys
@@ -597,8 +577,8 @@
           }
         }//end if serial available
       }//end do
-     while (Serial.available() > 8);
-//    }
+     while (Serial.available() > 0);
+    }
   }
   
   

@@ -95,7 +95,7 @@
       void setDefaultPinConnections();
       void setupInputsAndOutputs();
       void timer1Setup();
-      void timer2Setup();
+      void timer2Setup();s
       
       //low level button/led/analog controls
       byte _hardwareIter;//iterater for shitft(), allows consistant and max led brightness
@@ -104,6 +104,7 @@
       void checkAnalogPins();
       
       //set output type
+      boolean _serialEnabled;
       void setupMIDICommunication();
       void setupSerialCommunication();
       
