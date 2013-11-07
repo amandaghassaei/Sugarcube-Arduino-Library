@@ -1,13 +1,13 @@
   /*
     SugarCube.h
     Created by Amanda Ghassaei, July 20, 2013.
-    Released into the public domain.
   */
   
   #ifndef SugarCube_h
   #define SugarCube_h
   
   #include "Arduino.h"
+  #include "Delegate.h"
   
   class SugarCube
   {
@@ -95,7 +95,7 @@
       void setDefaultPinConnections();
       void setupInputsAndOutputs();
       void timer1Setup();
-      void timer2Setup();s
+      void timer2Setup();
       
       //low level button/led/analog controls
       byte _hardwareIter;//iterater for shitft(), allows consistant and max led brightness
@@ -107,6 +107,9 @@
       boolean _serialEnabled;
       void setupMIDICommunication();
       void setupSerialCommunication();
+      
+      //delegate
+      Delegate _delegate;
       
    };
   

@@ -1,7 +1,6 @@
   /*
     SugarCube.cpp
     Created by Amanda Ghassaei, July 20, 2013.
-    Released into the public domain.
   */
   
   #include "SugarCube.h"
@@ -13,13 +12,10 @@
   SugarCube::SugarCube()
   {
     //constructor method
-  }
-  
-  void SugarCube::init()
-  { 
     this->setDefaultPinConnections();
     
     _buttonDebounceTime = 12;
+    _serialEnabled = false;
     
     //setup button/led states
     for (byte i=0;i<4;i++){
@@ -32,10 +28,12 @@
         _buttonDebounceCounter[i][j] = _buttonDebounceTime;
       }
     }
-        
+  }
+  
+  void SugarCube::init()
+  {   
     this->setupInputsAndOutputs();
     this->timer1Setup();
-    _serialEnabled = false;
   }
   
   void SugarCube::setupInputsAndOutputs()
@@ -106,18 +104,18 @@
   
   void SugarCube::setDefaultPinConnections()
   {
-    this->setLedLatchPin(6);
-    this->setLedClockPin(5);
-    this->setLedDataPin(7);
-    this->setButtonLatchPin(4);
-    this->setButtonClockPin(3);
-    this->setButtonDataPin(2);
-    this->setXAccPin(A4);
-    this->setYAccPin(A3);
-    this->setPot1Pin(A2);
-    this->setPot2Pin(A5);
-    this->setXGyroPin(A1);
-    this->setYGyroPin(A0);
+    this->setLedLatchPin();
+    this->setLedClockPin();
+    this->setLedDataPin();
+    this->setButtonLatchPin();
+    this->setButtonClockPin();
+    this->setButtonDataPin();
+    this->setXAccPin();
+    this->setYAccPin();
+    this->setPot1Pin();
+    this->setPot2Pin();
+    this->setXGyroPin();
+    this->setYGyroPin();
   }
   
   void SugarCube::setLedLatchPin(byte pinNum)
@@ -460,6 +458,16 @@
           }
           else{
             Serial.write(((3-j)<<3)+(i<<1)+0);
+          }
+          _buttonEvents[i] &= ~(1<<j);
+        }
+      } else {
+        if (_buttonEvents[i]<<j){
+          if (_buttonStates[i]&1<<j){
+            _delegate.buttonPressed(i,j);
+          }
+          else{
+            _delegate.buttonReleased(i,j);
           }
           _buttonEvents[i] &= ~(1<<j);
         }
