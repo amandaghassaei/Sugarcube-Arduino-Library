@@ -56,7 +56,7 @@
       void turnOnLED(byte xPos, byte yPos);//turn on one led
       void turnOffLED(byte xPos, byte yPos);//turn off one led
       void setLEDState(byte xPos, byte yPos, boolean state);//set state of led -> 1 = on, 0 = off
-      void setLEDsByArray(boolean states[4][4]);//set states of all 16 leds with 4x4 boolean array states[x][y] -> 1 = on, 0 = off
+      void setLEDsByArray(boolean  * states);//set states of all 16 leds with 4x4 boolean array states[x][y] -> 1 = on, 0 = off
       void setLEDsByBitmap(byte * states, boolean byRow);//set states of all 16 leds with 4 bitmaps (states[4]), each element in states is a binary number between 0000 (all off) and 1111 (all on), when byRow == TRUE the first element of states corresponds to the first row of leds, the second element of states to the second row, and so on... when byRow == FALSE the first element of states corresponds to the first column of leds, the second element of states to the second column, and so on...
       void setLEDRow(byte row, byte states);//set entire row of four leds, states is a binary number between 0000 and 1111
       void setLEDCol(byte col, byte states);//set entire column of four leds, states is a binary number between 0000 and 1111

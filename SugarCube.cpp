@@ -183,7 +183,7 @@
   //-----------------------RECEIVE BUTTON DATA---------------------------
   //---------------------------------------------------------------------
   
-  boolean * SugarCube::getButtonStatesArray(boolean storageArray[4][4])
+  boolean * SugarCube::getButtonStatesArray(boolean storageArray[4][4])//working
   {//current button states, 4x4 array of 0's and 1's -> 1= pressed, 0 = not pressed [xPos][yPos]
     byte buttonStateCopy[4];//make a copy in case _buttonStates changes while we are extracting data, things could get confusing
     memcpy(buttonStateCopy, _buttonStates, 4*sizeof(byte));
@@ -346,12 +346,12 @@
     }
   }
   
-  void SugarCube::setLEDsByArray(boolean states[4][4])//working
+  void SugarCube::setLEDsByArray(boolean * states)//working
   {//set states of all 16 leds with 4x4 boolean array states[x][y] -> 1 = on, 0 = off
     for (byte y=0;y<4;y++){
       byte statesBitmap = 0;
       for (byte x=0;x<4;x++){
-        if (states[y][x]){
+        if (*(states + 4*y + x)){
           statesBitmap |= 1<<(3-x);
         }
       }
