@@ -52,20 +52,13 @@
   }
   
   void loop(){
-    for (byte y=0;y<4;y++){
-      for (byte x=0;x<2;x++){
-        byte storageArray[16][2];
-        for (byte i=0;i<15;i++){
-          storageArray[i][0] = 5;
-          storageArray[i][1] = 5;
-        }
-        Serial.print(sugarcube.numPressedButtons(sugarcube.getPressedButtons(storageArray)));
-        Serial.print(" ");
-      }
-      Serial.print("       ");
-    }
+    byte myarray[] = {1,3,15,1};
+//    for (byte y=0;y<4;y++){
+//      for (byte x=0;x<4;x++){
+          sugarcube.setLEDsByBitmap(sugarcube.getButtonStatesBitmap(true, myarray), true);
+//      }
+//    }
     Serial.println();
-//    delay(500);
   }
   
   //---------------------------------------------------------------------
