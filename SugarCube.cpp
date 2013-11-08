@@ -4,7 +4,7 @@
   */
   
     #include "SugarCube.h"
-  
+      
   //---------------------------------------------------------------------
   //-------------------------CONSTRUCTOR/SETUP---------------------------
   //---------------------------------------------------------------------
@@ -466,18 +466,15 @@
       } else {
         if (_buttonEvents[i]<<j){
           boolean state = _buttonStates[i]&1<<j;
-          _delegate.buttonStateChanged(i,j,state);
-          _delegate.buttonRowChanged(j,_buttonStates[j]);
-          _delegate.buttonColChanged(i,this->getStateOfButtonCol(i));
-          byte storageArray[4];
-          _delegate.buttonStatesChangedBitmap(storageArray);
-          boolean storageArray2[4][4];
-          _delegate.buttonStatesChangedArray(getButtonStatesArray(storageArray2));
+          _delegate.buttonStateChanged(3-j,i,state);
+          _delegate.buttonRowChanged(i,_buttonStates[i]);
+          _delegate.buttonColChanged(3-j,this->getStateOfButtonCol(3-j));
+          _delegate.buttonStatesChanged();
           if (state){
-            _delegate.buttonPressed(i,j);
+            _delegate.buttonPressed(3-j,i);
           }
           else{
-            _delegate.buttonReleased(i,j);
+            _delegate.buttonReleased(3-j,i);
           }
           _buttonEvents[i] &= ~(1<<j);
         }

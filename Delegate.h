@@ -7,8 +7,9 @@
   #define Delegate_h
   
   #include "Arduino.h"
-  class SugarCube;
   
+  class SugarCube;
+    
   class Delegate//parent class - allows message to be sent from sugarcube class into individual apps
   {
     public:
@@ -18,12 +19,11 @@
 
       //buttons
       void buttonPressed(byte xPos, byte yPos);
-      void buttonReleased(byte XPos, byte yPos);
+      void buttonReleased(byte xPos, byte yPos);
       void buttonStateChanged(byte xPos, byte yPos, boolean state);
       void buttonRowChanged(byte row, byte state);
       void buttonColChanged(byte col, byte state);
-      void buttonStatesChangedBitmap(byte * states);
-      void buttonStatesChangedArray(byte * states);
+      void buttonStatesChanged();
       
       //analog
       void XAccHasChanged(int val);

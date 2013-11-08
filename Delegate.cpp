@@ -4,6 +4,7 @@
   */
   
   #include "Delegate.h"
+  #include "SugarCube.h"
   
   //---------------------------------------------------------------------
   //-------------------------CONSTRUCTOR/SETUP---------------------------
@@ -21,10 +22,9 @@
   //buttons
   void Delegate::buttonPressed(byte xPos, byte yPos)
   {
-    _sugarcube->SugarCube::turnOnLED(xPos,yPos);
   }
   
-  void Delegate::buttonReleased(byte XPos, byte yPos)
+  void Delegate::buttonReleased(byte xPos, byte yPos)
   {
   }
   
@@ -40,19 +40,33 @@
   {
   }
   
-  void Delegate::buttonStatesChangedBitmap(byte * states)
-  {
-  }
-  
-  void Delegate::buttonStatesChangedArray(byte * states)
+  void Delegate::buttonStatesChanged()
   {
   }
   
   
   //analog
-//  Delegate::XAccHasChanged(int val)
-//  Delegate::YAccHasChanged(int val)
-//  Delegate::Pot1HasChanged(int val)
-//  Delegate::Pot2HasChanged(int val)
-//  Delegate::XGyroHasChanged(int val)
-//  Delegate::YGyroHasChanged(int val)
+  void Delegate::XAccHasChanged(int val)
+  {
+  }
+  
+  void Delegate::YAccHasChanged(int val)
+  {
+  }
+  
+  void Delegate::Pot1HasChanged(int val)
+  {
+  }
+  
+  void Delegate::Pot2HasChanged(int val)
+  {
+  }
+  
+  void Delegate::XGyroHasChanged(int val)
+  {
+  }
+  
+  void Delegate::YGyroHasChanged(int val)
+  {
+  }
+  

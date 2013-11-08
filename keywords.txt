@@ -6,15 +6,7 @@ getPressedButtons	KEYWORD2
 numPressedButtons	KEYWORD2
 buttonHasBeenPressed	KEYWORD2
 recentlyPressedButtons	KEYWORD2
-recentlyReleasedButtons	KEYWORD2    
-getControlStatesArray	KEYWORD2
-getControlStatesBitmap	KEYWORD2
-getPressedControls	KEYWORD2
-numPressedControls	KEYWORD2
-controlHasBeenPressed	KEYWORD2
-controlHasBeenReleased	KEYWORD2
-getRecentlyPressedControls	KEYWORD2
-getRecentlyReleasedControls	KEYWORD2    
+recentlyReleasedButtons	KEYWORD2      
 xAxisAccHasChanged	KEYWORD2
 yAxisAccHasChanged	KEYWORD2
 zAxisAccHasChanged	KEYWORD2
@@ -36,10 +28,6 @@ setLEDsByArray	KEYWORD2
 setLEDsByBitmap	KEYWORD2
 setLEDRow	KEYWORD2
 setLEDCol	KEYWORD2    
-turnOnControlLED	KEYWORD2
-turnOffControlLED	KEYWORD2
-setControlLEDState	KEYWORD2
-setControlLEDsByArray	KEYWORD2
 noteOn	KEYWORD2
 noteOff	KEYWORD2
 sendMIDI	KEYWORD2
