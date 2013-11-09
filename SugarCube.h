@@ -8,6 +8,7 @@
   
   #include "Arduino.h"
   #include "Delegate.h"
+  #include "FirstPressListener.h"
   
   class SugarCube
   {
@@ -71,6 +72,8 @@
       void timer1Routine();
       void timer2Routine();
       
+      void setDelegate(Delegate newDelegate);
+      
     private:
     
       //pin connections
@@ -98,7 +101,7 @@
       void timer2Setup();
       
       //low level button/led/analog controls
-      byte _hardwareIter;//iterater for shitft(), allows consistant and max led brightness
+      byte _hardwareIter;//iterater for shift(), allows consistant and max led brightness
       void buttonCheck(byte row, byte index);//button debouncer
       void shift(byte i);
       void checkAnalogPins();

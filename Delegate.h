@@ -33,7 +33,7 @@
       void XGyroHasChanged(int val);
       void YGyroHasChanged(int val);
       
-   protected:
+//   protected:
    
      SugarCube * _sugarcube;
      

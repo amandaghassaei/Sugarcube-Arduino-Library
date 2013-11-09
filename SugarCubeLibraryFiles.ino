@@ -1,6 +1,7 @@
   #include "SugarCube.h"
   
   SugarCube sugarcube;
+  FirstPressListener firstPressListener;
 
   void setup(){
     
@@ -44,6 +45,17 @@
 //    sugarcube.setYGyroPin(A0);
     
     sugarcube.init();
+    Serial.println("kjhkje");
+    Delegate
+    FirstPressListener firstPressListener;
+    sugarcube.setDelegate(firstPressListener);
+//    firstPressListener._sugarcube = &sugarcube;
+    firstPressListener.buttonPressed(0, 0);
+    while (firstPressListener.waitingForFirstPress()) {
+    }
+    Serial.println("done");
+    Serial.println(firstPressListener.waitingForFirstPress());
+    
   }
   
   void loop(){
