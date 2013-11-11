@@ -72,7 +72,7 @@
       void timer1Routine();
       void timer2Routine();
       
-      void setDelegate(Delegate newDelegate);
+      void setDelegate(Delegate * newDelegate);
       
     private:
     
@@ -112,7 +112,7 @@
       void setupSerialCommunication();
       
       //delegate
-      Delegate _delegate;
+      Delegate * _delegate;
       
    };
   

@@ -18,20 +18,20 @@
       void setSugarCube(SugarCube * sugarcube);
 
       //buttons
-      void buttonPressed(byte xPos, byte yPos);
-      void buttonReleased(byte xPos, byte yPos);
-      void buttonStateChanged(byte xPos, byte yPos, boolean state);
-      void buttonRowChanged(byte row, byte state);
-      void buttonColChanged(byte col, byte state);
-      void buttonStatesChanged();
+      void virtual buttonPressed(byte xPos, byte yPos);
+      void virtual buttonReleased(byte xPos, byte yPos);
+      void virtual buttonStateChanged(byte xPos, byte yPos, boolean state);
+      void virtual buttonRowChanged(byte row, byte state);
+      void virtual buttonColChanged(byte col, byte state);
+      void virtual buttonStatesChanged();
       
       //analog
-      void XAccHasChanged(int val);
-      void YAccHasChanged(int val);
-      void Pot1HasChanged(int val);
-      void Pot2HasChanged(int val);
-      void XGyroHasChanged(int val);
-      void YGyroHasChanged(int val);
+      void virtual XAccHasChanged(int val);
+      void virtual YAccHasChanged(int val);
+      void virtual Pot1HasChanged(int val);
+      void virtual Pot2HasChanged(int val);
+      void virtual XGyroHasChanged(int val);
+      void virtual YGyroHasChanged(int val);
       
 //   protected:
    

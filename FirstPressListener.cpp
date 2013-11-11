@@ -23,8 +23,10 @@
   
   void FirstPressListener::buttonPressed(byte xPos, byte yPos)
   {
-    _sugarcube->turnOnLED(xPos,yPos);
-    _firstPress = yPos*4 + xPos;
-    _stillWaitingForPress = false;
+    if (_stillWaitingForPress) {
+      _sugarcube->turnOnLED(xPos,yPos);
+      _firstPress = yPos*4 + xPos;
+      _stillWaitingForPress = false;
+    }
   }
     

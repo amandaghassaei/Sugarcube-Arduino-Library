@@ -13,8 +13,9 @@
     public:
     
       FirstPressListener();
-      boolean waitingForFirstPress();2
+      boolean waitingForFirstPress();
       void buttonPressed(byte xPos, byte yPos);
+      byte getFirstPress();
       
     private:
     

@@ -29,7 +29,7 @@
       }
     }
     
-    _delegate.setSugarCube(this);
+    _delegate->setSugarCube(this);
   }
   
   void SugarCube::init()
@@ -466,15 +466,15 @@
       } else {
         if (_buttonEvents[i]<<j){
           boolean state = _buttonStates[i]&1<<j;
-          _delegate.buttonStateChanged(3-j,i,state);
-          _delegate.buttonRowChanged(i,_buttonStates[i]);
-          _delegate.buttonColChanged(3-j,this->getStateOfButtonCol(3-j));
-          _delegate.buttonStatesChanged();
+          _delegate->buttonStateChanged(3-j,i,state);
+          _delegate->buttonRowChanged(i,_buttonStates[i]);
+          _delegate->buttonColChanged(3-j,this->getStateOfButtonCol(3-j));
+          _delegate->buttonStatesChanged();
           if (state){
-            _delegate.buttonPressed(3-j,i);
+            _delegate->buttonPressed(3-j,i);
           }
           else{
-            _delegate.buttonReleased(3-j,i);
+            _delegate->buttonReleased(3-j,i);
           }
           _buttonEvents[i] &= ~(1<<j);
         }
@@ -600,10 +600,10 @@
   //-----------------------------DELEGAT--------------------------------
   //---------------------------------------------------------------------
   
-  void SugarCube::setDelegate(Delegate newDelegate)
+  void SugarCube::setDelegate(Delegate * newDelegate)
   {
     _delegate = newDelegate;
-    _delegate.setSugarCube(this);
+    _delegate->setSugarCube(this);
   }
   
   
