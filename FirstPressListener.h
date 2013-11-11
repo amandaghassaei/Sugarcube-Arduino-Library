@@ -19,6 +19,7 @@
       
     private:
     
+//      void doSelectedLEDSequence();
       boolean _stillWaitingForPress;
       byte _firstPress;
     

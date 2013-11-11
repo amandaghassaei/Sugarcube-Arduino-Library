@@ -8,6 +8,7 @@
   
   #include "Arduino.h"
   #include "Delegate.h"
+  #include "SimpleMIDIKeyboard.h"
   
   class SugarCube
   {
