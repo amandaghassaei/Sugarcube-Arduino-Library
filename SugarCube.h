@@ -30,7 +30,7 @@
       void setXGyroPin(byte pinNum = A1);
       void setYGyroPin(byte pinNum = A0);
       
-      void init();//initialization function, call this in setup()
+      byte init();//initialization function, call this in setup()
     
       //button states
       boolean * getButtonStatesArray(boolean storageArray[4][4]);//current button states, 4x4 array of 0's and 1's -> 1= pressed, 0 = not pressed [xPos][yPos]
@@ -61,6 +61,7 @@
       void setLEDsByBitmap(byte * states, boolean byRow);//set states of all 16 leds with 4 bitmaps (states[4]), each element in states is a binary number between 0000 (all off) and 1111 (all on), when byRow == TRUE the first element of states corresponds to the first row of leds, the second element of states to the second row, and so on... when byRow == FALSE the first element of states corresponds to the first column of leds, the second element of states to the second column, and so on...
       void setLEDRow(byte row, byte states);//set entire row of four leds, states is a binary number between 0000 and 1111
       void setLEDCol(byte col, byte states);//set entire column of four leds, states is a binary number between 0000 and 1111
+      void clearLEDs();//turn off all leds
       
       //send MIDI data
       void noteOn(byte note, byte velocity, byte channel);//turn note on, note = 0-127, , velocity = 0-127, channel  = 0-15

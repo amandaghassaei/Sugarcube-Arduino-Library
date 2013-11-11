@@ -32,10 +32,18 @@
     _delegate->setSugarCube(this);
   }
   
-  void SugarCube::init()
+  byte SugarCube::init()
   {   
     this->setupInputsAndOutputs();
     this->timer1Setup();
+    
+    FirstPressListener firstPressListener;
+    this->setDelegate(&firstPressListener);
+    while (firstPressListener.waitingForFirstPress()) {
+    }
+    delay(1000);
+    this->clearLEDs();
+    return firstPressListener.getFirstPress();
   }
   
   void SugarCube::setupInputsAndOutputs()
@@ -390,6 +398,13 @@
     for (byte y=0;y<4;y++){
       boolean state = (states>>(3-y))&1;
       this->setLEDState(col, y, state);
+    }
+  }
+  
+  void SugarCube::clearLEDs()
+  {
+    for (int i=0;i<4;i++){
+      _ledData[i] = 0;
     }
   }
   
