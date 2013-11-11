@@ -45,11 +45,15 @@
     
     byte patchNum = sugarcube.init();
     Serial.println(patchNum);
+    Delegate * currentApp;
     switch(patchNum) {
       case 0:
-//        SimpleMIDIKeyboard simpleMIDIKeyboard;
-//        sugarcube.setDelegate(&simpleMIDIKeyboard);
+      {
+        SimpleMIDIKeyboard simpleMIDIKeyboard;
+        currentApp = &simpleMIDIKeyboard;
+        sugarcube.setDelegate(&simpleMIDIKeyboard);
         break;
+      }
       case 1:
         break;
       case 2:
