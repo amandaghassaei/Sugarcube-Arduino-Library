@@ -8,7 +8,6 @@
   
   #include "Arduino.h"
   #include "Delegate.h"
-  #include "FirstPressListener.h"
   
   class SugarCube
   {
