@@ -64,10 +64,10 @@
       void clearLEDs();//turn off all leds
       
       //send MIDI data
-      void noteOn(byte note, byte velocity, byte channel);//turn note on, note = 0-127, , velocity = 0-127, channel  = 0-15
-      void noteOff(byte note, byte channel);//turn note off, note = 0-127, channel  = 0-15
+      void noteOn(byte note, byte velocity = 100, byte channel = 0);//turn note on, note = 0-127, , velocity = 0-127, channel  = 0-15, (default velocity = 100, channel = 0)
+      void noteOff(byte note, byte channel = 0);//turn note off, note = 0-127, channel  = 0-15 (default channel = 0)
       void sendMIDI(byte command, byte param1, byte param2);//send generic 3 bit MIDI message
-      void pitchBend(byte pitchbend, byte channel);//pitchbend = 7 bit pitchbend val (0-127), channel = 0-15
+      void pitchBend(byte pitchbend, byte channel = 0);//pitchbend = 7 bit pitchbend val (0-127), channel = 0-15 (default channel = 0)
       
       //Timer interrupt routines
       void timer1Routine();

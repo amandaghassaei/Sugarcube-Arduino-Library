@@ -7,6 +7,7 @@
   #define Delegate_h
   
   #include "Arduino.h"
+  #include "Utilities.h"
   
   class SugarCube;
     
