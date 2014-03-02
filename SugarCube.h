@@ -8,7 +8,9 @@
   
   #include "Arduino.h"
   #include "Delegate.h"
+  
   #include "SimpleMIDIKeyboard.h"
+  #include "PixelTilt.h"
   
   class SugarCube
   {
@@ -88,7 +90,7 @@
       byte _buttonDebounceTime;//sets the number of counts we will use to determine if a button has been properly debounced
       
       //analog storage
-      int _xAcc, _yAcc, _xGyro, _yGyro, _pot1, _pot2;
+      int _xAccRaw, _yAccRaw, _xGyro, _yGyro, _pot1, _pot2;
       
       //button/led states storage
       byte _ledData[4];//storage for led states, 4 bytes
@@ -105,7 +107,18 @@
       byte _hardwareIter;//iterater for shift(), allows consistant and max led brightness
       void buttonCheck(byte row, byte index);//button debouncer
       void shift(byte i);
+      
+      void initAnalogPins();
       void checkAnalogPins();
+      int analogValFromPin(byte pinNum, int oldVal);
+      byte _analogTolerance;
+      void setXAcc(int newVal);
+      void setYAcc(int newVal);
+      byte scaleAcc(int rawVal);
+      void setXGyro(int newVal);
+      void setYGyro(int newVal);
+      void setPot1(int newVal);
+      void setPot2(int newVal);
       
       //set output type
       boolean _serialEnabled;

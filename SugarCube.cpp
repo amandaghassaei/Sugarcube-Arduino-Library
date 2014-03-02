@@ -16,6 +16,7 @@
     this->setDefaultPinConnections();
     
     _buttonDebounceTime = 12;
+    _analogTolerance = 5;
     _serialEnabled = false;
     
     //setup button/led states
@@ -36,6 +37,8 @@
   byte SugarCube::init()
   {   
     this->setupInputsAndOutputs();
+    this->initAnalogPins();
+    this->setupMIDICommunication();
     this->timer1Setup();
     
     FirstPressListener firstPressListener;
@@ -305,12 +308,12 @@
 
   int SugarCube::getXAxisAccVal()
   {//returns value of accelerometer x axis
-    return _xAcc;
+    return this->scaleAcc(_xAccRaw);
   }
   
   int SugarCube::getYAxisAccVal()
   {//returns value of accelerometer y axis
-    return _yAcc;
+    return this->scaleAcc(_yAccRaw);
   }
   
   int SugarCube::getXAxisGyroVal()
@@ -529,14 +532,94 @@
     }
   }
   
-  void SugarCube::checkAnalogPins()
+  void SugarCube::initAnalogPins()
   {
-    _xAcc = analogRead(_xAccPin);
-    _yAcc = analogRead(_yAccPin);
+    _xAccRaw = analogRead(_xAccPin);
+    _yAccRaw = analogRead(_yAccPin);
     _xGyro = analogRead(_xGyroPin);
     _yGyro = analogRead(_yGyroPin);
     _pot1 = analogRead(_pot1Pin);
     _pot2 = analogRead(_pot2Pin);
+  }
+  
+  void SugarCube::checkAnalogPins()
+  {
+    this->setXAcc(this->analogValFromPin(_xAccPin, _xAccRaw));
+    this->setYAcc(this->analogValFromPin(_yAccPin, _yAccRaw));
+    this->setXGyro(this->analogValFromPin(_xGyroPin, _xGyro));
+    this->setYGyro(this->analogValFromPin(_yGyroPin, _yGyro));
+    this->setPot1(this->analogValFromPin(_pot1Pin, _pot1));
+    this->setPot2(this->analogValFromPin(_pot2Pin, _pot2));
+  }
+  
+  int SugarCube::analogValFromPin(byte pinNum, int oldVal)
+  {
+    int newVal = analogRead(pinNum);
+    if (abs(newVal-oldVal)>_analogTolerance){
+      return newVal;
+    }
+    return oldVal;
+  }
+  
+  void SugarCube::setXAcc(int newVal)
+  {
+    if (_xAccRaw != newVal){
+      byte scaledNewVal = this->scaleAcc(newVal);
+      if (this->scaleAcc(_xAccRaw) != scaledNewVal){
+        _xAccRaw = newVal;
+        _delegate->XAccHasChanged(scaledNewVal);
+      }
+    }
+  }
+  
+  void SugarCube::setYAcc(int newVal)
+  {
+    if (_yAccRaw != newVal){
+      byte scaledNewVal = this->scaleAcc(newVal);
+      if (this->scaleAcc(_yAccRaw) != scaledNewVal){
+        Serial.println(newVal);
+        _yAccRaw = newVal;
+        _delegate->YAccHasChanged(scaledNewVal);
+      }
+    }
+  }
+  
+  byte SugarCube::scaleAcc(int rawVal)
+  {
+    //between 335 and 231
+    return constrain(map(rawVal, 335, 231, 0, 127), 0, 127);
+  }
+  
+  void SugarCube::setXGyro(int newVal)
+  {
+    if (_xGyro != newVal){
+      _xGyro = newVal;
+      _delegate->XGyroHasChanged(newVal);
+    }
+  }
+  
+  void SugarCube::setYGyro(int newVal)
+  {
+    if (_yGyro != newVal){
+      _yGyro = newVal;
+      _delegate->YGyroHasChanged(newVal);
+    }
+  }
+  
+  void SugarCube::setPot1(int newVal)
+  {
+    if (_pot1 != newVal){
+      _pot1 = newVal;
+      _delegate->Pot1HasChanged(newVal);
+    }
+  }
+  
+  void SugarCube::setPot2(int newVal)
+  {
+    if (_pot2 != newVal){
+      _pot2 = newVal;
+      _delegate->Pot2HasChanged(newVal);
+    }
   }
   
   //---------------------------------------------------------------------
@@ -546,34 +629,40 @@
   void SugarCube::setupMIDICommunication()
   {
     //disable timer 2 interrupt
-    Serial.begin(31250);//MIDI baud rate
+    Serial.begin(9600);
+//    Serial.begin(31250);//MIDI baud rate
   }
   
   void SugarCube::noteOn(byte note, byte velocity, byte channel)
   {
-    this->sendMIDI(144&channel, note, velocity);
+    this->sendMIDI(144|channel, note, velocity);
   }
   
   void SugarCube::noteOff(byte note, byte channel)
   {
-    this->sendMIDI(144&channel, note, 0);//note on message with zero velocity == noteoff
+    this->sendMIDI(144|channel, note, 0);//note on message with zero velocity == noteoff
   }
   
   void SugarCube::pitchBend(byte pitchbend, byte channel)
   {
-    this->sendMIDI(224&channel, 0, pitchbend);//command&channel, lsb, msb
+    this->sendMIDI(224|channel, 0, pitchbend);//command&channel, lsb, msb
   }
   
   void SugarCube::sendMIDI(byte command, byte param1, byte param2) 
   {//sends a MIDI message
-    Serial.write(command);
-    Serial.write(param1);
-    Serial.write(param2);
+    Serial.print(command);
+    Serial.print("   ");
+    Serial.print(param1);
+    Serial.print("   ");
+    Serial.println(param2);
+//    Serial.write(command);
+//    Serial.write(param1);
+//    Serial.write(param2);
   }
   
   void SugarCube::setupSerialCommunication()
   {
-    Serial.begin(57600);
+    Serial.begin(9600);
     this->timer2Setup();
   }
   

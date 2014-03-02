@@ -11,3 +11,9 @@
   {
     return 5*xPos+yPos+baseNote;
   }
+  
+  byte velocityFromAnalogVal(int val)
+  {
+    byte velocity = val>>3;
+    return constrain(velocity, 10, 127);//constrain velocity to be at least 10
+  }
