@@ -10,7 +10,6 @@
     _tempoTimer = 0;
     _maxTempo = this->maxTempoFromPotVal(_sugarcube->getPot2Val());
     _playhead = 0;
-    this->clearAllStorage();
     
     _velocity = 100;
     //change these to change available notes
@@ -18,6 +17,8 @@
     _notes[2] = 67;
     _notes[1] = 63;
     _notes[0] = 60;   
+    
+    this->clearAllStorage();
     
     //start playhead
     _sugarcube->setLEDCol(_playhead, 15);//turn on column
@@ -87,14 +88,14 @@
   void StepSequencer::wasShaken()
   {
     this->clearAllStorage();
+    for (byte i=0;i<4;i++){
+      _sugarcube->noteOff(_notes[i]);//turn off any notes that might be stuck on
+    }
   }
   
   void StepSequencer::clearAllStorage()
   {
     for (byte i=0;i<16;i++){
         _seqStates[i] = 0;
-    }
-    for (byte i=0;i<4;i++){
-      _sugarcube->noteOff(_notes[i]);//turn off any notes that might be stuck on
     }
   }
