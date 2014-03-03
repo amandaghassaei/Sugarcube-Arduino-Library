@@ -18,6 +18,7 @@
     _buttonDebounceTime = 12;
     _analogTolerance = 5;
     _serialEnabled = false;
+    _delegateTimer = 0;
     
     //setup button/led states
     for (byte i=0;i<4;i++){
@@ -306,12 +307,12 @@
   //------------------------GET ANALOG DATA------------------------------
   //---------------------------------------------------------------------
 
-  int SugarCube::getXAxisAccVal()
+  byte SugarCube::getXAxisAccVal()
   {//returns value of accelerometer x axis
     return this->scaleAcc(_xAccRaw);
   }
   
-  int SugarCube::getYAxisAccVal()
+  byte SugarCube::getYAxisAccVal()
   {//returns value of accelerometer y axis
     return this->scaleAcc(_yAccRaw);
   }
@@ -577,7 +578,6 @@
     if (_yAccRaw != newVal){
       byte scaledNewVal = this->scaleAcc(newVal);
       if (this->scaleAcc(_yAccRaw) != scaledNewVal){
-        Serial.println(newVal);
         _yAccRaw = newVal;
         _delegate->YAccHasChanged(scaledNewVal);
       }
@@ -650,11 +650,11 @@
   
   void SugarCube::sendMIDI(byte command, byte param1, byte param2) 
   {//sends a MIDI message
-    Serial.print(command);
-    Serial.print("   ");
-    Serial.print(param1);
-    Serial.print("   ");
-    Serial.println(param2);
+//    Serial.print(command);
+//    Serial.print("   ");
+//    Serial.print(param1);
+//    Serial.print("   ");
+//    Serial.println(param2);
 //    Serial.write(command);
 //    Serial.write(param1);
 //    Serial.write(param2);
@@ -670,7 +670,7 @@
   //--------------------INTERRUPT ROUTINES-------------------------------
   //---------------------------------------------------------------------
   
-  void SugarCube::timer1Routine()
+  void SugarCube::timer1Routine()//1kHz
   {
     this->shift(_hardwareIter);
     _hardwareIter++;
@@ -678,6 +678,10 @@
       _hardwareIter = 0;
     }
     this->checkAnalogPins();
+    if (_delegateTimer++>10) {
+      _delegate->routine100kHz();
+      _delegateTimer = 0;
+    }
   }
   
   void SugarCube::timer2Routine()

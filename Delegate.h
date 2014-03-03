@@ -37,6 +37,9 @@
       void virtual XGyroHasChanged(int val){}
       void virtual YGyroHasChanged(int val){}
       
+      //100Hz timer routine
+      void virtual routine100kHz(){}
+      
    protected:
    
      SugarCube * _sugarcube;

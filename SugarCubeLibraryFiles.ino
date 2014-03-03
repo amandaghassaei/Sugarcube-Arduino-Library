@@ -29,7 +29,7 @@
 //    7 - 74HC595 data pin (DS)
 //    
 //    set custom pin connections using the following commands, this must happen before sugarcube.init()
-//    leave digital pins 0 and 1 (RX/TX) empty
+//    leave digital pins 0 and 1 (RX/TX Serial pins) empty
 //    sugarcube.setLedLatchPin(6);
 //    sugarcube.setLedClockPin(5);
 //    sugarcube.setLedDataPin(7);
@@ -59,6 +59,12 @@
         for (;;) {}
         }
       case 5:
+      {
+        PixelTilt pixelTilt;
+        currentApp = &pixelTilt;
+        sugarcube.setDelegate(&pixelTilt);
+        for (;;) {}
+        }
       case 6:
       case 7:
       case 8:

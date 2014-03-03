@@ -44,16 +44,16 @@
       byte numPressedButtons(byte * pressedButtonList = NULL);//amount of buttons pressed currently
 
       //accelerometer data
-      int getXAxisAccVal();//returns value of accelerometer x axis, value between 0-1
-      int getYAxisAccVal();//returns value of accelerometer y axis, value between 0-1
+      byte getXAxisAccVal();//returns value of accelerometer x axis, value between 0-127
+      byte getYAxisAccVal();//returns value of accelerometer y axis, value between 0-127
       
       //gyroscope data
-      int getXAxisGyroVal();//returns value of gyroscope x axis, value between 0-1
-      int getYAxisGyroVal();//returns value of gyroscope y axis, value between 0-1
+      int getXAxisGyroVal();//returns value of gyroscope x axis, value between 0-1023
+      int getYAxisGyroVal();//returns value of gyroscope y axis, value between 0-1023
       
       //potentiometer data
-      int getPot1Val();//returns value of potentiomenter #1, value between 0-1
-      int getPot2Val();//returns value of potentiomenter #2, value between 0-1
+      int getPot1Val();//returns value of potentiomenter #1, value between 0-1023
+      int getPot2Val();//returns value of potentiomenter #2, value between 0-1023
       
       //LED states
       void turnOnLED(byte xPos, byte yPos);//turn on one led
@@ -127,6 +127,7 @@
       
       //delegate
       Delegate * _delegate;
+      byte _delegateTimer;//allows us to send 100Hz interrupt to delegate for time sensitive stuff
       
    };
   

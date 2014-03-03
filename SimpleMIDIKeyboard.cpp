@@ -7,7 +7,7 @@
   
   SimpleMIDIKeyboard::SimpleMIDIKeyboard()
   {
-    _baseNote = this->calculateBaseNoteFromPotVal(_sugarcube->getPot1Val());
+    _baseNote = calculateBaseNoteFromPotVal(_sugarcube->getPot1Val());
     _velocity = velocityFromAnalogVal(_sugarcube->getPot2Val());
   }
   
@@ -31,11 +31,6 @@
   void SimpleMIDIKeyboard::Pot2HasChanged(int val)
   {
     _velocity = velocityFromAnalogVal(val);
-  }
-  
-  byte SimpleMIDIKeyboard::calculateBaseNoteFromPotVal(int val)
-  {
-    return byte(25+val>>5);//returns #s between 25 and 88
   }
   
   void SimpleMIDIKeyboard::XAccHasChanged(int val)
