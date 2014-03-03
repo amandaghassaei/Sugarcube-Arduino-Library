@@ -55,6 +55,12 @@
           for (;;) {}
         }
       case 1:
+        {
+          Flin flin;
+          currentApp = &flin;
+          sugarcube.setDelegate(&flin);
+          for (;;) {}
+        }
       case 2:
       case 3:
       case 4:

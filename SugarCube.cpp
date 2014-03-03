@@ -658,7 +658,7 @@
   void SugarCube::setupMIDICommunication()
   {
     //disable timer 2 interrupt
-    Serial.begin(9600);
+    Serial.begin(38400);
 //    Serial.begin(31250);//MIDI baud rate
   }
   

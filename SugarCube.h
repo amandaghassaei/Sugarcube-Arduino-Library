@@ -12,6 +12,7 @@
   #include "SimpleMIDIKeyboard.h"
   #include "PixelTilt.h"
   #include "StepSequencer.h"
+  #include "Flin.h"
   
   class SugarCube
   {
