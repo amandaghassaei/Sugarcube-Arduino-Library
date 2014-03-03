@@ -650,11 +650,11 @@
   
   void SugarCube::sendMIDI(byte command, byte param1, byte param2) 
   {//sends a MIDI message
-//    Serial.print(command);
-//    Serial.print("   ");
-//    Serial.print(param1);
-//    Serial.print("   ");
-//    Serial.println(param2);
+    Serial.print(command);
+    Serial.print("   ");
+    Serial.print(param1);
+    Serial.print("   ");
+    Serial.println(param2);
 //    Serial.write(command);
 //    Serial.write(param1);
 //    Serial.write(param2);

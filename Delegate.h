@@ -37,6 +37,8 @@
       void virtual xGyroHasChanged(int val){}
       void virtual yGyroHasChanged(int val){}
       
+      void virtual wasShaken(){}
+      
       //100Hz timer routine
       void virtual routine100kHz(){}
       

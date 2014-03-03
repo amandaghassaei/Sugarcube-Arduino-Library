@@ -112,7 +112,7 @@
       void initAnalogPins();
       void checkAnalogPins();
       int analogValFromPin(byte pinNum, int oldVal);
-      byte _analogTolerance;
+      byte _analogTolerance;//how much noise we can put up with
       void setXAcc(int newVal);
       void setYAcc(int newVal);
       byte scaleAcc(int rawVal);
@@ -120,6 +120,7 @@
       void setYGyro(int newVal);
       void setPot1(int newVal);
       void setPot2(int newVal);
+      void checkForShake();
       
       //set output type
       boolean _serialEnabled;

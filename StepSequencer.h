@@ -19,6 +19,7 @@
       void pot1HasChanged(int val);//paging
       void pot2HasChanged(int val);//tempo
       void buttonPressed(byte xPos, byte yPos);
+      void wasShaken();
       
     private:
       
@@ -33,6 +34,7 @@
       
       byte _velocity;
       byte _notes[4];
+      void clearAllStorage();
       void playNotesForStates(byte column, boolean noteOn);
     
   };
