@@ -48,6 +48,12 @@
     Delegate * currentApp;
     switch(patchNum) {
       case 0:
+        {
+          StepSequencer stepSequencer;
+          currentApp = &stepSequencer;
+          sugarcube.setDelegate(&stepSequencer);
+          for (;;) {}
+        }
       case 1:
       case 2:
       case 3:

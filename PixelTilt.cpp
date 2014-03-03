@@ -10,12 +10,14 @@
     _baseNote = calculateBaseNoteFromPotVal(_sugarcube->getPot1Val());
     _velocity = velocityFromAnalogVal(_sugarcube->getPot2Val());
     _pixelHeld = false;
+    _firstPress = false;
     _xTimer = 0;
     _yTimer = 0;
   }
   
   void PixelTilt::buttonPressed(byte xPos, byte yPos)
   {
+    _firstPress = true;
     this->setPixel(_xPos, _yPos, false);
     _pixelHeld = true;
     _xPos = xPos;
@@ -40,6 +42,7 @@
   
   void PixelTilt::routine100kHz()
   {
+    if (!_firstPress) return;
     if (_pixelHeld) return;
     int xTimerMax = this->getMaxTimerFromAcc(_sugarcube->getXAxisAccVal());
     int yTimerMax = this->getMaxTimerFromAcc(_sugarcube->getYAxisAccVal());

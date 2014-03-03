@@ -27,6 +27,7 @@
       byte _baseNote;//lowest note in the keyboard
       byte _lastNote;//current note on (in case we change base note after a note has started, but before it has ended
       byte _velocity;//velocity of MIDI notes
+      boolean _firstPress;//wait to do stuff until a press is detected
       boolean _pixelHeld;//lets user pin a pixel in place, tilt, and then drop the pixel
       //position of currently lit pixel
       byte _xPos;
