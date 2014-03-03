@@ -568,7 +568,7 @@
       byte scaledNewVal = this->scaleAcc(newVal);
       if (this->scaleAcc(_xAccRaw) != scaledNewVal){
         _xAccRaw = newVal;
-        _delegate->XAccHasChanged(scaledNewVal);
+        _delegate->xAccHasChanged(scaledNewVal);
       }
     }
   }
@@ -579,7 +579,7 @@
       byte scaledNewVal = this->scaleAcc(newVal);
       if (this->scaleAcc(_yAccRaw) != scaledNewVal){
         _yAccRaw = newVal;
-        _delegate->YAccHasChanged(scaledNewVal);
+        _delegate->yAccHasChanged(scaledNewVal);
       }
     }
   }
@@ -594,7 +594,7 @@
   {
     if (_xGyro != newVal){
       _xGyro = newVal;
-      _delegate->XGyroHasChanged(newVal);
+      _delegate->xGyroHasChanged(newVal);
     }
   }
   
@@ -602,7 +602,7 @@
   {
     if (_yGyro != newVal){
       _yGyro = newVal;
-      _delegate->YGyroHasChanged(newVal);
+      _delegate->yGyroHasChanged(newVal);
     }
   }
   
@@ -610,7 +610,7 @@
   {
     if (_pot1 != newVal){
       _pot1 = newVal;
-      _delegate->Pot1HasChanged(newVal);
+      _delegate->pot1HasChanged(newVal);
     }
   }
   
@@ -618,7 +618,7 @@
   {
     if (_pot2 != newVal){
       _pot2 = newVal;
-      _delegate->Pot2HasChanged(newVal);
+      _delegate->pot2HasChanged(newVal);
     }
   }
   

@@ -30,12 +30,12 @@
       void virtual buttonStatesChanged(){}
       
       //analog
-      void virtual XAccHasChanged(int val){}
-      void virtual YAccHasChanged(int val){}
-      void virtual Pot1HasChanged(int val){}
-      void virtual Pot2HasChanged(int val){}
-      void virtual XGyroHasChanged(int val){}
-      void virtual YGyroHasChanged(int val){}
+      void virtual xAccHasChanged(int val){}
+      void virtual yAccHasChanged(int val){}
+      void virtual pot1HasChanged(int val){}
+      void virtual pot2HasChanged(int val){}
+      void virtual xGyroHasChanged(int val){}
+      void virtual yGyroHasChanged(int val){}
       
       //100Hz timer routine
       void virtual routine100kHz(){}

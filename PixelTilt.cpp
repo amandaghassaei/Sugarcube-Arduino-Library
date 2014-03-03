@@ -30,12 +30,12 @@
     _pixelHeld = false;
   }
   
-  void PixelTilt::Pot1HasChanged(int val)
+  void PixelTilt::pot1HasChanged(int val)
   {
     _baseNote = calculateBaseNoteFromPotVal(val);
   }
   
-  void PixelTilt::Pot2HasChanged(int val)
+  void PixelTilt::pot2HasChanged(int val)
   {
     _velocity = velocityFromAnalogVal(val);
   }

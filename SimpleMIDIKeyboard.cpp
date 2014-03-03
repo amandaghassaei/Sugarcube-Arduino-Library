@@ -23,17 +23,17 @@
     _sugarcube->noteOff(createMIDINoteInFourths(xPos, yPos, _baseNote));
   }
   
-  void SimpleMIDIKeyboard::Pot1HasChanged(int val)
+  void SimpleMIDIKeyboard::pot1HasChanged(int val)
   {
     _baseNote = calculateBaseNoteFromPotVal(val);
   }
   
-  void SimpleMIDIKeyboard::Pot2HasChanged(int val)
+  void SimpleMIDIKeyboard::pot2HasChanged(int val)
   {
     _velocity = velocityFromAnalogVal(val);
   }
   
-  void SimpleMIDIKeyboard::XAccHasChanged(int val)
+  void SimpleMIDIKeyboard::xAccHasChanged(int val)
   {
     _sugarcube->pitchBend(val);
   }

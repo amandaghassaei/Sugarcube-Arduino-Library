@@ -17,8 +17,8 @@
       
       void buttonPressed(byte xPos, byte yPos);
       void buttonReleased(byte xPos, byte yPos);
-      void Pot1HasChanged(int val);//base note
-      void Pot2HasChanged(int val);//velocity
+      void pot1HasChanged(int val);//base note
+      void pot2HasChanged(int val);//velocity
       //tilt
       void routine100kHz();
       
