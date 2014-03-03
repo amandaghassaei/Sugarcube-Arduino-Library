@@ -27,7 +27,7 @@
   
   void PixelTilt::buttonReleased(byte xPos, byte yPos)
   {
-    _pixelHeld = false;
+    if (xPos == _xPos && yPos == _yPos) _pixelHeld = false;
   }
   
   void PixelTilt::pot1HasChanged(int val)

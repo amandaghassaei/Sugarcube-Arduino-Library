@@ -16,10 +16,10 @@
       StepSequencer();
       
       void routine100kHz();
-      void pot1HasChanged(int val);//paging
+      void pot1HasChanged(int val);//horizontal scroll
       void pot2HasChanged(int val);//tempo
       void buttonPressed(byte xPos, byte yPos);
-      void wasShaken();
+      void wasShaken();//clear
       
     private:
       
@@ -36,7 +36,6 @@
       byte _notes[4];
       void clearAllStorage();
       void playNotesForStates(byte column, boolean noteOn);
-    
   };
   
   #endif
