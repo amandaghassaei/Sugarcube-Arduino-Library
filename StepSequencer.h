@@ -18,8 +18,11 @@
       void routine100kHz();
       void pot1HasChanged(int val);//paging
       void pot2HasChanged(int val);//tempo
+      void buttonPressed(byte xPos, byte yPos);
       
     private:
+      
+      byte _seqStates[16];//storage array for sequencer
     
       byte _tempoTimer;
       byte _maxTempo;
@@ -27,6 +30,10 @@
       
       byte _playhead;//which beat we're currently on
       void incrementPlayhead();
+      
+      byte _velocity;
+      byte _notes[4];
+      void playNotesForStates(byte column, boolean noteOn);
     
   };
   
