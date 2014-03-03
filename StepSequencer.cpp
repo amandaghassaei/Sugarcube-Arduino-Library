@@ -91,6 +91,8 @@
     for (byte i=0;i<4;i++){
       _sugarcube->noteOff(_notes[i]);//turn off any notes that might be stuck on
     }
+     _sugarcube->clearLEDs();
+     _sugarcube->setLEDCol(_playhead, 15);
   }
   
   void StepSequencer::clearAllStorage()

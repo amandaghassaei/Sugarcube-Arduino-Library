@@ -120,7 +120,13 @@
       void setYGyro(int newVal);
       void setPot1(int newVal);
       void setPot2(int newVal);
+      
+      //shake variables
       void checkForShake();
+      int _shakeDebounceTimer;
+      byte _numShakeExtremes;
+      boolean _xAccMax;
+      boolean _yAccMax;
       
       //set output type
       boolean _serialEnabled;

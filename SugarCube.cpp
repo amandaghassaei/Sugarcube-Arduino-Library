@@ -19,6 +19,8 @@
     _analogTolerance = 5;
     _serialEnabled = false;
     _delegateTimer = 0;
+    _shakeDebounceTimer = 0;
+    _numShakeExtremes = 0;
     
     //setup button/led states
     for (byte i=0;i<4;i++){
@@ -551,6 +553,7 @@
     this->setYGyro(this->analogValFromPin(_yGyroPin, _yGyro));
     this->setPot1(this->analogValFromPin(_pot1Pin, _pot1));
     this->setPot2(this->analogValFromPin(_pot2Pin, _pot2));
+    this->checkForShake();
   }
   
   int SugarCube::analogValFromPin(byte pinNum, int oldVal)
@@ -620,6 +623,32 @@
       _pot2 = newVal;
       _delegate->pot2HasChanged(newVal);
     }
+  }
+  
+  void SugarCube::checkForShake()
+  {
+    //acc raw values between 335 and 231
+    if (_shakeDebounceTimer<=1000 && _shakeDebounceTimer>=0) {
+      if (_numShakeExtremes == 0) _shakeDebounceTimer=0;
+      if ((_xAccRaw<260 && _xAccMax) || (_xAccRaw>300 && !_xAccMax)){//if we hit a max
+        _numShakeExtremes++;
+        _xAccMax = !_xAccMax;
+      }
+      if ((_yAccRaw<260 && _yAccMax) || (_yAccRaw>300 && !_yAccMax)){//if we hit a max
+        _numShakeExtremes++;
+        _yAccMax = !_yAccMax;
+      }
+    }
+    if (_numShakeExtremes>3){
+      _delegate->wasShaken();
+      _numShakeExtremes = 0;
+      _shakeDebounceTimer=-1000;
+    }
+    if (_shakeDebounceTimer>1000) {
+      _numShakeExtremes = 0;
+      _shakeDebounceTimer=0;
+    }
+     _shakeDebounceTimer++;
   }
   
   //---------------------------------------------------------------------
