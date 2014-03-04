@@ -13,6 +13,7 @@
   #include "PixelTilt.h"
   #include "StepSequencer.h"
   #include "Flin.h"
+  #include "Boiing.h"
   
   class SugarCube
   {

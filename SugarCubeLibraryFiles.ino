@@ -62,6 +62,12 @@
           for (;;) {}
         }
       case 2:
+        {
+          Boiing boiing;
+          currentApp = &boiing;
+          sugarcube.setDelegate(&boiing);
+          for (;;) {}
+        }
       case 3:
       case 4:
         {
