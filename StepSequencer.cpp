@@ -9,7 +9,7 @@
   {
     _tempoTimer = 0;
     _maxTempo = this->maxTempoFromPotVal(_sugarcube->getPot2Val());
-    _xOffset = this->xOffsetFromPotVal(_sugarcube->getPot1Val());
+    _xOffset = xOffsetFromPotVal(_sugarcube->getPot1Val());
     _playhead = 0;
     
     _velocity = 100;
@@ -59,16 +59,11 @@
   
   void StepSequencer::pot1HasChanged(int val)
   {
-    _xOffset = this->xOffsetFromPotVal(val);
+    _xOffset = xOffsetFromPotVal(val);
     for (byte i=0;i<4;i++){
       _sugarcube->setLEDCol(i, _seqStates[this->absolutePosition(i)]);
     }
     if (this->relativePosition()<4) _sugarcube->setLEDCol(this->relativePosition(), 15);//turn on column
-  }
-  
-  byte StepSequencer::xOffsetFromPotVal(int val)
-  {
-    return val>>6;
   }
   
   void StepSequencer::pot2HasChanged(int val)

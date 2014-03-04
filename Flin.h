@@ -28,6 +28,10 @@
       unsigned long _states[16];//16x32
       byte _notes[16];
       
+      byte _xOffset;
+      byte absolutePosition(byte pos);
+      byte relativePosition(byte pos);
+      
       byte _columnTimers[16];
       byte _columnStepTime[16];
       void incrementCol(byte colNum);

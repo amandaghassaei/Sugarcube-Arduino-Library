@@ -16,6 +16,10 @@
   
   void Flin::pot1HasChanged(int val)
   {
+    _xOffset = xOffsetFromPotVal(val);
+    for (byte i=0;i<4;i++){
+      _sugarcube->setLEDCol(i, _states[this->absolutePosition(i)]&15);
+    }
   }
   
   void Flin::pot2HasChanged(int val)
@@ -24,7 +28,7 @@
   
   void Flin::buttonPressed(byte xPos, byte yPos)
   {
-    _states[xPos] |= 1<<(3-yPos);
+    _states[this->absolutePosition(xPos)] |= 1<<(3-yPos);
   }
   
   void Flin::clearAllStorage()
@@ -42,7 +46,7 @@
       this->incrementCol(i);
     }
     for (byte i=0;i<4;i++){
-      _sugarcube->setLEDCol(i, _states[i]&15);
+      _sugarcube->setLEDCol(i, _states[this->absolutePosition(i)]&15);
     }
   }
   
@@ -52,7 +56,7 @@
     if (_columnTimers[colNum]++>_columnStepTime[colNum]){
         boolean lsb = _states[colNum]&1;
         _states[colNum] = _states[colNum]>>1;
-        if (colNum<4) _states[colNum] |= _sugarcube->getStateOfButtonCol(colNum);
+        if (this->relativePosition(colNum)<4) _states[colNum] |= _sugarcube->getStateOfButtonCol(this->relativePosition(colNum));
         if (lsb==1) {
           unsigned long msb = 1;
           _states[colNum] |= (msb<<31);
@@ -64,11 +68,22 @@
     }
   }
   
+  byte Flin::absolutePosition(byte pos)
+  {
+    return (pos+_xOffset)&15;
+  }
+  
+  byte Flin::relativePosition(byte pos)
+  {
+    return (pos+16-_xOffset)&15;
+  }
+  
   void Flin::wasShaken()
   {
     for (byte i=0;i<16;i++){
       if (_states[i]&1) _sugarcube->noteOff(_notes[i]);
     }
     this->clearAllStorage();
+    _sugarcube->clearLEDs();
   }
 

@@ -25,7 +25,6 @@
           
       byte _seqStates[16];//storage array for sequencer
       byte _xOffset;//used for scrolling through steps
-      byte xOffsetFromPotVal(int val);
       byte absolutePosition(byte pos);
       byte relativePosition();
     

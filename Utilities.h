@@ -12,6 +12,7 @@
   byte createMIDINoteInFourths(byte xPos, byte yPos, byte baseNote);
   byte calculateBaseNoteFromPotVal(int val);
   byte velocityFromAnalogVal(int val);
+  byte xOffsetFromPotVal(int val);
    
   
   #endif

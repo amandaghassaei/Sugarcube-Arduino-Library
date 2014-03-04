@@ -22,3 +22,8 @@
     byte velocity = val>>3;
     return constrain(velocity, 10, 127);//constrain velocity to be at least 10
   }
+  
+  byte xOffsetFromPotVal(int val)
+  {
+    return val>>6;
+  }
