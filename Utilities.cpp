@@ -14,7 +14,7 @@
   
   byte calculateBaseNoteFromPotVal(int val)
   {
-    return byte(25+val>>5);//returns #s between 25 and 88
+    return byte(25+(val>>5));//returns #s between 25 and 56
   }
   
   byte velocityFromAnalogVal(int val)

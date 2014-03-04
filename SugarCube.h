@@ -29,9 +29,9 @@
       void setButtonDataPin(byte pinNum = 2);
       void setXAccPin(byte pinNum = A4);
       void setYAccPin(byte pinNum = A3);
-      void setPot1Pin(byte pinNum = A2);
+      void setPot1Pin(byte pinNum = A1);
       void setPot2Pin(byte pinNum = A5);
-      void setXGyroPin(byte pinNum = A1);
+      void setXGyroPin(byte pinNum = A2);
       void setYGyroPin(byte pinNum = A0);
       
       byte init();//initialization function, call this in setup()
