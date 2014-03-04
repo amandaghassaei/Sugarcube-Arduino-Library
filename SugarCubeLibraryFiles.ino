@@ -38,9 +38,9 @@
 //    sugarcube.setButtonDataPin(2);
 //    sugarcube.setXAccPin(A4);
 //    sugarcube.setYAccPin(A3);
-//    sugarcube.setPot1Pin(A2);
+//    sugarcube.setPot1Pin(A1);
 //    sugarcube.setPot2Pin(A5);
-//    sugarcube.setXGyroPin(A1);
+//    sugarcube.setXGyroPin(A2);
 //    sugarcube.setYGyroPin(A0);
     
     byte patchNum = sugarcube.init();
@@ -69,6 +69,9 @@
           for (;;) {}
         }
       case 3:
+        {
+          //looper
+        }
       case 4:
         {
         SimpleMIDIKeyboard simpleMIDIKeyboard;
@@ -84,8 +87,17 @@
         for (;;) {}
         }
       case 6:
+        {
+          //press cafe
+        }
       case 7:
+        {
+          //arpeggiator
+        }
       case 8:
+        {
+          //game of life
+        }
       case 9:
       case 10:
       case 11:
@@ -93,6 +105,9 @@
       case 13:
       case 14:
       case 15:
+        {
+        //serial communication
+        }
         break;
     }
   }

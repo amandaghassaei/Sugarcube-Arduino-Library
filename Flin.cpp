@@ -24,6 +24,7 @@
   
   void Flin::buttonPressed(byte xPos, byte yPos)
   {
+    _sugarcube->turnOnLED(xPos, yPos);
     byte absolutePosition = this->absolutePosition(xPos);
     _states[absolutePosition] |= 1<<(3-yPos);
     if (_columnStepTime[absolutePosition]==0){
