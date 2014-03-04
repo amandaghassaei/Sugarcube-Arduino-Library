@@ -22,13 +22,15 @@
     }
   }
   
-  void Flin::pot2HasChanged(int val)
-  {
-  }
-  
   void Flin::buttonPressed(byte xPos, byte yPos)
   {
-    _states[this->absolutePosition(xPos)] |= 1<<(3-yPos);
+    byte absolutePosition = this->absolutePosition(xPos);
+    _states[absolutePosition] |= 1<<(3-yPos);
+    if (_columnStepTime[absolutePosition]==0){
+      byte yAcc = _sugarcube->getYAxisAccVal();//0-127
+      if (yAcc>50) yAcc = 50;
+      _columnStepTime[absolutePosition] = yAcc+3;
+    }
   }
   
   void Flin::clearAllStorage()
@@ -36,7 +38,7 @@
     for (byte i=0;i<16;i++){
       _states[i] = 0;
       _columnTimers[i] = 0;
-      _columnStepTime[i] = 20;
+      _columnStepTime[i] = 0;
     }
   }
   
@@ -62,7 +64,7 @@
           _states[colNum] |= (msb<<31);
           if (!(boolean)_states[colNum]) _sugarcube->noteOff(_notes[colNum]);
         } else {
-          if (_states[colNum]&1) _sugarcube->noteOn(_notes[colNum], 100);
+          if (_states[colNum]&1) _sugarcube->noteOn(_notes[colNum], 127-_columnStepTime[colNum]);
         }
       _columnTimers[colNum] = 0;
     }

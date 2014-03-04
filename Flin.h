@@ -16,7 +16,6 @@
       Flin();
       
       void pot1HasChanged(int val);//horizontal scroll
-      void pot2HasChanged(int val);//velocity
       void wasShaken();//clear
       void buttonPressed(byte xPos, byte yPos);
       
