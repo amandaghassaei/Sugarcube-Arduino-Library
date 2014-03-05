@@ -336,7 +336,7 @@
   
   int SugarCube::getPot2Val()
   {//returns value of potentiomenter #2
-    return _pot1;
+    return _pot2;
   }
   
   //---------------------------------------------------------------------

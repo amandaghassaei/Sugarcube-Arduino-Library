@@ -10,7 +10,7 @@
     _tempoTimer = 0;
     _maxTempo = this->maxTempoFromPotVal(_sugarcube->getPot2Val());
     _xOffset = xOffsetFromPotVal(_sugarcube->getPot1Val());
-    _playhead = 0;
+    _playhead = absolutePosition(15);//start at -1
     
     _velocity = 100;
     //change these to change available notes
