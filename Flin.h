@@ -36,7 +36,6 @@
       void incrementCol(byte colNum);
       
       void clearAllStorage();
-    
   };
   
   #endif

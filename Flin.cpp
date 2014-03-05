@@ -8,6 +8,7 @@
   Flin::Flin()
   {
     this->clearAllStorage();
+    _xOffset = xOffsetFromPotVal(_sugarcube->getPot1Val());
     byte notes[] = {59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74};
     for (byte i=0;i<16;i++){
       _notes[i] = notes[i];

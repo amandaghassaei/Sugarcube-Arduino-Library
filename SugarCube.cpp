@@ -16,7 +16,7 @@
     this->setDefaultPinConnections();
     
     _buttonDebounceTime = 12;
-    _analogTolerance = 5;
+    _analogTolerance = 10;
     _serialEnabled = false;
     _delegateTimer = 0;
     _shakeDebounceTimer = 0;

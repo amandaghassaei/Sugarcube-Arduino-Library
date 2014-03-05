@@ -20,10 +20,6 @@
     _notes[0] = 60;   
     
     this->clearAllStorage();
-    
-    //start playhead
-//    _sugarcube->setLEDCol(_playhead, 15);//turn on column
-//    this->playNotesForStates(_seqStates[_playhead], true);
   }
   
   void StepSequencer::routine100kHz()
