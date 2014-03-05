@@ -65,26 +65,36 @@
   
   void Boiing::incrementCol(byte colNum)
   {
-    if (_states[colNum]==0) return;
+    if (_maxHeights[colNum]==0) return;
     if (_columnTimers[colNum]++>_maxTempo){
       _columnTimers[colNum] = 0;
       int scaledAcc = this->scaleAcc(_sugarcube->getYAxisAccVal());
       if (scaledAcc == 0) return;
       
       if (scaledAcc>0){//tilted toward negative y
+//        if (_states[colNum]==0 && _maxHeights[colNum] == 8) _states[colNum] = 8;
+                
         if (_direction[colNum]){//heading toward max
           if (_states[colNum] >= _maxHeights[colNum]) {
             _direction[colNum] = 0;
           }
+          if (_states[colNum]==0) _direction[colNum] = 0;
         } else {//heading toward min
           if (_states[colNum]&1) {
             _direction[colNum] = 1;
-            _sugarcube->noteOff(_notes[colNum]);
           }
+          if (_states[colNum]==0) _direction[colNum] = 1;
+          if (_states[colNum]&1) _sugarcube->noteOff(_notes[colNum]);
+          if (_states[colNum]&2) _sugarcube->noteOn(_notes[colNum], 100);
         }
         
+        if (_states[colNum]==0) _sugarcube->noteOn(_notes[colNum], 100);
+        
         //move pixel
-        if (_maxHeights[colNum]==1) return;
+        if (_maxHeights[colNum]==1) {
+          _states[colNum] = !_states[colNum];
+          return;
+        }
         if (_direction[colNum]) { 
           _states[colNum] = _states[colNum]<<1;
         } else {
@@ -99,12 +109,17 @@
         } else {//heading toward min
           if (_states[colNum]&(1<<3)) {
             _direction[colNum] = 1;
-            _sugarcube->noteOff(_notes[colNum]);
           }
+          if (_states[colNum]&8) _sugarcube->noteOff(_notes[colNum]);
+          if (_states[colNum]&4) _sugarcube->noteOn(_notes[colNum], 100);
         }
         
         //move pixel
-        if (_maxHeights[colNum]==8) return;
+        if (_maxHeights[colNum]==8) {
+          boolean lastState = _states[colNum]>>3&1;
+          _states[colNum] = (!lastState)<<3;
+          return;
+        }
         if (_direction[colNum]) { 
           _states[colNum] = _states[colNum]>>1;
         } else {
