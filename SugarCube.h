@@ -14,6 +14,7 @@
   #include "StepSequencer.h"
   #include "Flin.h"
   #include "Boiing.h"
+  #include "Arp.h"
   
   class SugarCube
   {

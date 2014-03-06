@@ -80,7 +80,7 @@
         for (;;) {}
         }
       case 5:
-      {
+        {
         PixelTilt pixelTilt;
         currentApp = &pixelTilt;
         sugarcube.setDelegate(&pixelTilt);
@@ -92,7 +92,9 @@
         }
       case 7:
         {
-          //arpeggiator
+         Arp arp;
+         currentApp = &arp;
+         sugarcube.setDelegate(&arp);
         }
       case 8:
         {
