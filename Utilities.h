@@ -13,6 +13,7 @@
   byte calculateBaseNoteFromPotVal(int val);
   byte velocityFromAnalogVal(int val);
   byte xOffsetFromPotVal(int val);
+  byte yCoordFromColState(byte state);
    
   
   #endif

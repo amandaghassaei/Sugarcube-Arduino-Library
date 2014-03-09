@@ -27,3 +27,11 @@
   {
     return val>>6;
   }
+  
+  byte yCoordFromColState(byte state)
+  {
+    for (int i=0;i<4;i++) {
+      if (state&1 == i) return 3-i;
+    }
+    return 4;
+  }

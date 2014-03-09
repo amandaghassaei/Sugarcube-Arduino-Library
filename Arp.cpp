@@ -33,8 +33,23 @@
     if (_states[xPos]==0){
       _sugarcube->turnOnLED(xPos, yPos);
       _states[xPos] = 1<<(3-yPos);
+    } else {
+      if (1<<(3-yPos)>_states[xPos]){
+        _states[xPos] = _states[xPos]<<1;
+      } else if (1<<(3-yPos)<_states[xPos]){
+        _states[xPos] = _states[xPos]>>1;
+      } else {
+        //change pattern
+      }
     }
-   
+  }
+  
+  void xAccHasChanged(int val)
+  {
+    
+    if (val<50){
+    } else if (val>76){
+    }
   }
   
   void Arp::clearAllStorage()
@@ -43,6 +58,7 @@
       _states[i] = 0;
     }
     _currentCol = 0;
+    _basenote = 50;
   }
   
   boolean Arp::notesAvailable()
@@ -60,12 +76,15 @@
       _tempoTimer = 0;
       this->updateCurrentCol();//increment _currentCol
       
+      _sugarcube->noteOff(_lastNote);
+      
       //update LEDs
       for (byte i=0;i<4;i++){
-        if (i==_currentCol)
         _sugarcube->setLEDCol(i, _states[i]&15);
       }
       _sugarcube->setLEDCol(_currentCol, 0);
+      _lastNote = createMIDINoteInFourths(_currentCol, yCoordFromColState(_states[_currentCol]), _basenote);
+      _sugarcube->noteOn(_lastNote, _velocity);
     }
   }
   
