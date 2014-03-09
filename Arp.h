@@ -19,7 +19,6 @@
       void pot2HasChanged(int val);//tempo
       void wasShaken();//clear
       void buttonPressed(byte xPos, byte yPos);
-      void xAccHasChanged(int val);//change basenote
       
       void routine100kHz();
 
@@ -29,9 +28,11 @@
       void updateCurrentCol();
       
       byte _states[4];
-      boolean notesAvailable();
+      byte notesActive();
       
       byte _basenote;
+      void checkForAcc();
+      byte _baseNoteTimer;
       byte _lastNote;//leep track of this so we can turn it off
       
       byte _maxTempo;

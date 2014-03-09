@@ -11,6 +11,7 @@
     _tempoTimer = 0;
     _maxTempo = this->maxTempoFromPotVal(_sugarcube->getPot2Val());
     _velocity = velocityFromAnalogVal(_sugarcube->getPot2Val());
+    _baseNoteTimer = 0;
   }
   
   void Arp::pot2HasChanged(int val)
@@ -44,11 +45,13 @@
     }
   }
   
-  void xAccHasChanged(int val)
+  void Arp::checkForAcc()
   {
-    
+    byte val = _sugarcube->getXAxisAccVal();//0-127
     if (val<50){
+      _basenote-=5;
     } else if (val>76){
+      _basenote+=5;
     }
   }
   
@@ -61,17 +64,18 @@
     _basenote = 50;
   }
   
-  boolean Arp::notesAvailable()
+  byte Arp::notesActive()
   {
+    byte numNotes = 0;
     for (byte i=0;i<4;i++){
-      if (_states[i] != 0) return true;
+      if (_states[i] != 0) numNotes++;
     }
-    return false;
+    return numNotes;
   }
   
   void Arp::routine100kHz()
   {
-    if (!this->notesAvailable()) return;
+    if (this->notesActive()==0) return;
     if (_tempoTimer++>_maxTempo){
       _tempoTimer = 0;
       this->updateCurrentCol();//increment _currentCol
@@ -82,9 +86,12 @@
       for (byte i=0;i<4;i++){
         _sugarcube->setLEDCol(i, _states[i]&15);
       }
-      _sugarcube->setLEDCol(_currentCol, 0);
+      if (this->notesActive()!=1) _sugarcube->setLEDCol(_currentCol, 0);
       _lastNote = createMIDINoteInFourths(_currentCol, yCoordFromColState(_states[_currentCol]), _basenote);
       _sugarcube->noteOn(_lastNote, _velocity);
+      
+      _baseNoteTimer++;
+      if (_baseNoteTimer>=2*(this->notesActive())) this->checkForAcc();
     }
   }
   
