@@ -4,8 +4,6 @@
 
   void setup(){
     
-//    Serial.begin(9600);
-    
 //    default pin connections are given below:
 //
 //    Analog
@@ -44,7 +42,6 @@
 //    sugarcube.setYGyroPin(A0);
     
     byte patchNum = sugarcube.init();
-//    Serial.println(patchNum);
     Delegate * currentApp;
     switch(patchNum) {
       case 0:
@@ -70,7 +67,9 @@
         }
       case 3:
         {
-          //looper
+         Arp arp;
+         currentApp = &arp;
+         sugarcube.setDelegate(&arp);
         }
       case 4:
         {
@@ -87,19 +86,8 @@
         for (;;) {}
         }
       case 6:
-        {
-          //press cafe
-        }
       case 7:
-        {
-         Arp arp;
-         currentApp = &arp;
-         sugarcube.setDelegate(&arp);
-        }
       case 8:
-        {
-          //game of life
-        }
       case 9:
       case 10:
       case 11:
@@ -108,9 +96,12 @@
       case 14:
       case 15:
         {
-        //serial communication
+        SerialComm serialComm;
+        currentApp = &serialComm;
+        sugarcube.setDelegate(&serialComm);
+        for (;;) {}
         }
-        break;
+      break;
     }
   }
   

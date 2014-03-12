@@ -17,7 +17,6 @@
     
     _buttonDebounceTime = 12;
     _analogTolerance = 10;
-    _serialEnabled = false;
     _delegateTimer = 0;
     _shakeDebounceTimer = 0;
     _numShakeExtremes = 0;
@@ -48,7 +47,7 @@
     this->setDelegate(&firstPressListener);
     while (firstPressListener.waitingForFirstPress()) {
     }
-    delay(1000);
+//    delay(1000);
     this->clearLEDs();
     return firstPressListener.getFirstPress();
   }
@@ -475,31 +474,19 @@
     for (byte j=0;j<4;j++){
       this->buttonCheck(i,j);
       
-      if (_serialEnabled){
-        if (_buttonEvents[i]<<j){
-          if (_buttonStates[i]&1<<j){
-            Serial.write(((3-j)<<3)+(i<<1)+1);
-          }
-          else{
-            Serial.write(((3-j)<<3)+(i<<1)+0);
-          }
-          _buttonEvents[i] &= ~(1<<j);
+      if (_buttonEvents[i]<<j){
+        boolean state = _buttonStates[i]&1<<j;
+        _delegate->buttonStateChanged(3-j,i,state);
+        _delegate->buttonRowChanged(i,_buttonStates[i]);
+        _delegate->buttonColChanged(3-j,this->getStateOfButtonCol(3-j));
+        _delegate->buttonStatesChanged();
+        if (state){
+          _delegate->buttonPressed(3-j,i);
         }
-      } else {
-        if (_buttonEvents[i]<<j){
-          boolean state = _buttonStates[i]&1<<j;
-          _delegate->buttonStateChanged(3-j,i,state);
-          _delegate->buttonRowChanged(i,_buttonStates[i]);
-          _delegate->buttonColChanged(3-j,this->getStateOfButtonCol(3-j));
-          _delegate->buttonStatesChanged();
-          if (state){
-            _delegate->buttonPressed(3-j,i);
-          }
-          else{
-            _delegate->buttonReleased(3-j,i);
-          }
-          _buttonEvents[i] &= ~(1<<j);
+        else{
+          _delegate->buttonReleased(3-j,i);
         }
+        _buttonEvents[i] &= ~(1<<j);
       }
     }    
   }
@@ -691,7 +678,8 @@
   
   void SugarCube::setupSerialCommunication()
   {
-    Serial.begin(9600);
+    Serial.end();
+    Serial.begin(57600);
     this->timer2Setup();
   }
   
@@ -715,23 +703,21 @@
   
   void SugarCube::timer2Routine()
   {
-    if (_serialEnabled){//if in serial mode
-      do{
-        if (Serial.available()){
-          byte ledByte = Serial.read();//000xxyys
-          boolean ledstate = ledByte & 1;
-          byte ledy = (ledByte >> 1) & 3;
-          byte ledx = (ledByte >> 3) & 3;
-          if (ledstate){
-            _ledData[ledy] |= 8 >> ledx;
-          }
-          else{
-            _ledData[ledy] &= ~ (8 >> ledx);
-          }
-        }//end if serial available
-      }//end do
-     while (Serial.available() > 0);
-    }
+    do{
+      if (Serial.available()){
+        byte ledByte = Serial.read();//000xxyys
+        boolean ledstate = ledByte & 1;
+        byte ledy = (ledByte >> 1) & 3;
+        byte ledx = (ledByte >> 3) & 3;
+        if (ledstate){
+          _ledData[ledy] |= 8 >> ledx;
+        }
+        else{
+          _ledData[ledy] &= ~ (8 >> ledx);
+        }
+      }//end if serial available
+    }//end do
+   while (Serial.available() > 0);
   }
   
   //---------------------------------------------------------------------

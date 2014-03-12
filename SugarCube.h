@@ -15,6 +15,7 @@
   #include "Flin.h"
   #include "Boiing.h"
   #include "Arp.h"
+  #include "SerialComm.h"
   
   class SugarCube
   {
@@ -37,6 +38,9 @@
       void setYGyroPin(byte pinNum = A0);
       
       byte init();//initialization function, call this in setup()
+      
+      void setupSerialCommunication();//used for serial communication with MaxMSP
+      void setupMIDICommunication();//midi communication
     
       //button states
       boolean * getButtonStatesArray(boolean storageArray[4][4]);//current button states, 4x4 array of 0's and 1's -> 1= pressed, 0 = not pressed [xPos][yPos]
@@ -130,11 +134,6 @@
       byte _numShakeExtremes;
       boolean _xAccMax;
       boolean _yAccMax;
-      
-      //set output type
-      boolean _serialEnabled;
-      void setupMIDICommunication();
-      void setupSerialCommunication();
       
       //delegate
       Delegate * _delegate;

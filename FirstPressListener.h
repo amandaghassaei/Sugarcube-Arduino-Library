@@ -14,6 +14,7 @@
     
       FirstPressListener();
       boolean waitingForFirstPress();
+      void buttonReleased(byte xPos, byte yPos);
       void buttonPressed(byte xPos, byte yPos);
       byte getFirstPress();
       

@@ -1,5 +1,5 @@
 //  /*
-//    PixelTile.h
+//    PixelTilt.h
 //    Created by Amanda Ghassaei, Feb 15, 2014.
 //  */
 
