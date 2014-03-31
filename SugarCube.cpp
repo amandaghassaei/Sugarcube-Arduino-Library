@@ -644,9 +644,7 @@
   
   void SugarCube::setupMIDICommunication()
   {
-    //disable timer 2 interrupt
-    Serial.begin(38400);
-//    Serial.begin(31250);//MIDI baud rate
+    Serial.begin(31250);//MIDI baud rate
   }
   
   void SugarCube::noteOn(byte note, byte velocity, byte channel)
@@ -666,14 +664,15 @@
   
   void SugarCube::sendMIDI(byte command, byte param1, byte param2) 
   {//sends a MIDI message
-    Serial.print(command);
-    Serial.print("   ");
-    Serial.print(param1);
-    Serial.print("   ");
-    Serial.println(param2);
-//    Serial.write(command);
-//    Serial.write(param1);
-//    Serial.write(param2);
+//    debugging:
+//    Serial.print(command);
+//    Serial.print("   ");
+//    Serial.print(param1);
+//    Serial.print("   ");
+//    Serial.println(param2);
+    Serial.write(command);
+    Serial.write(param1);
+    Serial.write(param2);
   }
   
   void SugarCube::setupSerialCommunication()

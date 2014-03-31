@@ -9,7 +9,7 @@
   {
     this->clearAllStorage();
     _xOffset = xOffsetFromPotVal(_sugarcube->getPot1Val());
-    byte notes[] = {59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74};
+    byte notes[] = {55, 57, 60, 62, 65, 67, 69, 72, 74, 77, 79, 81, 84, 86, 89, 91};
     for (byte i=0;i<16;i++){
       _notes[i] = notes[i];
     }
@@ -66,7 +66,7 @@
           _states[colNum] |= (msb<<31);
           if (!(boolean)_states[colNum]) _sugarcube->noteOff(_notes[colNum]);
         } else {
-          if (_states[colNum]&1) _sugarcube->noteOn(_notes[colNum], 127-_columnStepTime[colNum]);
+          if (_states[colNum]&1) _sugarcube->noteOn(_notes[colNum], constrain(127-_columnStepTime[colNum], 110, 127));
         }
       _columnTimers[colNum] = 0;
     }

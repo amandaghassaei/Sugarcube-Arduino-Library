@@ -76,7 +76,7 @@
       sign = -1;
     }
     acc3Bit++;//transform 0, 1, 2 vals to 1, 2, 3
-    return sign*acc3Bit*5;
+    return sign*acc3Bit*2;
   }
   
   void PixelTilt::decrementXPos()
