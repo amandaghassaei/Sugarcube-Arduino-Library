@@ -18,18 +18,6 @@
     Serial.write(byte(xPos<<3 | yPos<<1 | stateBit));
   }
   
-  void SerialComm::xAccHasChanged(int val)//0-127
-  {
-    //011vvvvv - 5 bit val
-    Serial.write(byte(3<<5 | (val>>2)));
-  }
-  
-  void SerialComm::yAccHasChanged(int val)//0-127
-  {
-    //100vvvvv - 5 bit val
-    Serial.write(byte(4<<5 | (val>>2)));
-  }
-  
   void SerialComm::pot1HasChanged(int val)//10 bit
   {
     //001vvvvv - 5 bit val
@@ -40,4 +28,16 @@
   {
     //010vvvvv - 5 bit val
     Serial.write(byte(2<<5 | (val>>5)));
+  }
+  
+  void SerialComm::xAccHasChanged(int val)//0-127
+  {
+    //011vvvvv - 5 bit val
+    Serial.write(byte(3<<5 | (val>>2)));
+  }
+  
+  void SerialComm::yAccHasChanged(int val)//0-127
+  {
+    //100vvvvv - 5 bit val
+    Serial.write(byte(4<<5 | (val>>2)));
   }

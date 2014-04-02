@@ -10,7 +10,7 @@
     this->clearAllStorage();
     _maxTempo = this->maxTempoFromPotVal(_sugarcube->getPot2Val());
     _xOffset = xOffsetFromPotVal(_sugarcube->getPot1Val());
-    byte notes[] = {59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74};
+    byte notes[] = {55, 57, 60, 62, 65, 67, 69, 72, 74, 77, 79, 81, 84, 86, 89, 91};
     for (byte i=0;i<16;i++){
       _notes[i] = notes[i];
     }
@@ -69,61 +69,65 @@
     if (_columnTimers[colNum]++>_maxTempo){
       _columnTimers[colNum] = 0;
       int scaledAcc = this->scaleAcc(_sugarcube->getYAxisAccVal());
-      if (scaledAcc == 0) return;
+      if (scaledAcc == 0) return;//no movement if device is lying flat
       
       if (scaledAcc>0){//tilted toward negative y
-//        if (_states[colNum]==0 && _maxHeights[colNum] == 8) _states[colNum] = 8;
-                
         if (_direction[colNum]){//heading toward max
-          if (_states[colNum] >= _maxHeights[colNum]) {
-            _direction[colNum] = 0;
-          }
-          if (_states[colNum]==0) _direction[colNum] = 0;
+          if (_states[colNum] >= _maxHeights[colNum]) _direction[colNum] = 0;
         } else {//heading toward min
-          if (_states[colNum]&1) {
-            _direction[colNum] = 1;
-          }
-          if (_states[colNum]==0) _direction[colNum] = 1;
-          if (_states[colNum]&1) _sugarcube->noteOff(_notes[colNum]);
-          if (_states[colNum]&2) _sugarcube->noteOn(_notes[colNum], 100);
+          if (_states[colNum]&1) _direction[colNum] = 1;
         }
-        
-        if (_states[colNum]==0) _sugarcube->noteOn(_notes[colNum], 100);
-        
-        //move pixel
-        if (_maxHeights[colNum]==1) {
-          _states[colNum] = !_states[colNum];
-          return;
+   
+        //move pixel and trigger note
+        if (_maxHeights[colNum]==1) {//if max height is 1, toggle pixel
+          if (_states[colNum]==0 || _states[colNum]==1){
+            _states[colNum] = !_states[colNum];
+            _sugarcube->noteOff(_notes[colNum]);
+            _sugarcube->noteOn(_notes[colNum], 100);
+            return;
+          }
         }
         if (_direction[colNum]) { 
+          if (_states[colNum]&1) _sugarcube->noteOff(_notes[colNum]);
           _states[colNum] = _states[colNum]<<1;
         } else {
           _states[colNum] = _states[colNum]>>1;
+          if (_states[colNum]&1) _sugarcube->noteOn(_notes[colNum], 100);
+        }
+        
+        if (_states[colNum]==0 && _maxHeights[colNum] == 8) {//edge case
+           _states[colNum] = 8;
+           _direction[colNum] = 0;
         }
       
       } else {//tilted toward positive y
         if (_direction[colNum]){//heading toward max
-          if (_states[colNum] <= _maxHeights[colNum]) {
-            _direction[colNum] = 0;
-          }
+          if (_states[colNum] <= _maxHeights[colNum]) _direction[colNum] = 0;
         } else {//heading toward min
-          if (_states[colNum]&(1<<3)) {
-            _direction[colNum] = 1;
-          }
-          if (_states[colNum]&8) _sugarcube->noteOff(_notes[colNum]);
-          if (_states[colNum]&4) _sugarcube->noteOn(_notes[colNum], 100);
+          if (_states[colNum]&8) _direction[colNum] = 1;
         }
         
-        //move pixel
-        if (_maxHeights[colNum]==8) {
-          boolean lastState = _states[colNum]>>3&1;
-          _states[colNum] = (!lastState)<<3;
-          return;
+        //move pixel and trigger note
+        if (_maxHeights[colNum]==8) {//if max height is 1, toggle pixel
+          if (_states[colNum]==0 || _states[colNum]==8){
+            boolean lastState = _states[colNum]>>3&1;
+            _states[colNum] = (!lastState)<<3;
+            _sugarcube->noteOff(_notes[colNum]);
+            _sugarcube->noteOn(_notes[colNum], 100);
+            return;
+          }
         }
         if (_direction[colNum]) { 
+          if (_states[colNum]&8) _sugarcube->noteOff(_notes[colNum]);
           _states[colNum] = _states[colNum]>>1;
         } else {
           _states[colNum] = _states[colNum]<<1;
+          if (_states[colNum]&8) _sugarcube->noteOn(_notes[colNum], 100);
+        }
+        
+        if (_states[colNum]==0 && _maxHeights[colNum] == 1) {//edge case
+           _states[colNum] = 1;
+           _direction[colNum] = 0;
         }
       }
     }

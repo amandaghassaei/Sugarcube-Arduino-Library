@@ -645,6 +645,7 @@
   void SugarCube::setupMIDICommunication()
   {
     Serial.begin(31250);//MIDI baud rate
+//    Serial.begin(9600);//debugging
   }
   
   void SugarCube::noteOn(byte note, byte velocity, byte channel)
