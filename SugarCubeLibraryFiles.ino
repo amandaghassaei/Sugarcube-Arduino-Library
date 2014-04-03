@@ -42,48 +42,42 @@
 //    sugarcube.setYGyroPin(A0);
     
     byte patchNum = sugarcube.init();
-    Delegate * currentApp;
     switch(patchNum) {
       case 0:
         {
           StepSequencer stepSequencer;
-          currentApp = &stepSequencer;
           sugarcube.setDelegate(&stepSequencer);
           for (;;) {}
         }
       case 1:
         {
           Flin flin;
-          currentApp = &flin;
           sugarcube.setDelegate(&flin);
           for (;;) {}
         }
       case 2:
         {
           Boiing boiing;
-          currentApp = &boiing;
           sugarcube.setDelegate(&boiing);
           for (;;) {}
         }
       case 3:
         {
-         Arp arp;
-         currentApp = &arp;
-         sugarcube.setDelegate(&arp);
+          Arp arp;
+          sugarcube.setDelegate(&arp);
+          for (;;) {}
         }
       case 4:
         {
-        SimpleMIDIKeyboard simpleMIDIKeyboard;
-        currentApp = &simpleMIDIKeyboard;
-        sugarcube.setDelegate(&simpleMIDIKeyboard);
-        for (;;) {}
+          SimpleMIDIKeyboard simpleMIDIKeyboard;
+          sugarcube.setDelegate(&simpleMIDIKeyboard);
+          for (;;) {}
         }
       case 5:
         {
-        PixelTilt pixelTilt;
-        currentApp = &pixelTilt;
-        sugarcube.setDelegate(&pixelTilt);
-        for (;;) {}
+          PixelTilt pixelTilt;
+          sugarcube.setDelegate(&pixelTilt);
+          for (;;) {}
         }
       case 6:
       case 7:
@@ -97,7 +91,6 @@
       case 15:
         {
         SerialComm serialComm;
-        currentApp = &serialComm;
         sugarcube.setDelegate(&serialComm);
         for (;;) {}
         }

@@ -23,8 +23,15 @@
       void routine100kHz();
 
     private:
+    
+      void setDecreasingPattern();
+      void setIncreasingPattern();
+      void setRandomPattern();
+      byte getRandomNumber(byte pattern[4], byte newNumber);
       
       byte _currentCol;
+      byte _arpPattern[4];
+      byte _arpPatternIndex;
       void updateCurrentCol();
       
       byte _states[4];

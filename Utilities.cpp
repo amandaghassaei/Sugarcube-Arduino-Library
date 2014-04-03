@@ -9,7 +9,7 @@
   //translate button location (x,y) to MIDI note, based on fourths: http://www.youtube.com/watch?v=uQm3xbTxJRc
   byte createMIDINoteInFourths(byte xPos, byte yPos, byte baseNote)
   {
-    return 5*xPos+yPos+baseNote;
+    return 5*xPos+(3-yPos)+baseNote;
   }
   
   byte calculateBaseNoteFromPotVal(int val)
@@ -31,7 +31,7 @@
   byte yCoordFromColState(byte state)
   {
     for (int i=0;i<4;i++) {
-      if (state&1 == i) return 3-i;
+      if ((state>>i)&1) return 3-i;
     }
     return 4;
   }
