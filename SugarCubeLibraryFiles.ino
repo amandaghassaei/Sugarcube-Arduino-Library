@@ -9,8 +9,8 @@
 //    Analog
 //  
 //    0 - Gyroscope Y (Y4.5)
-//    1 - Gyroscope X (X4.5)
-//    2 - Potentiometer 1 
+//    1 - Potentiometer 1
+//    2 - Gyroscope X (X4.5)
 //    3 - Accelerometer Y (YAcc)
 //    4 - Accelerometer X (XAcc)
 //    5 - Potentiometer 2
